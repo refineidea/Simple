@@ -1,0 +1,27 @@
+<krpano>
+	<events name="desktop_events" devices="desktop" keep="true"
+		onkeydown="
+			
+			if(keycode == 17,
+				set(skin_settings.ctrl_flag, true);
+			);
+		
+			if(skin_settings.ctrl_flag,
+				set(vlookat_moveforce, 0);
+				set(hlookat_moveforce, 0);
+				
+				if(keycode == 37,
+					skin_nextscene(-1);
+				);
+				if(keycode == 39,
+					skin_nextscene(1);
+				);
+			);
+		"
+		onkeyup="
+			if(keycode == 17,
+				set(skin_settings.ctrl_flag, false);
+			);
+		"
+	/>
+</krpano>

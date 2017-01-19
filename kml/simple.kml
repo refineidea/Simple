@@ -1,0 +1,17 @@
+<!--
+		Simple is a lightweight all-aroud skin for krpano panoramic player.
+		And yes, it's about simplicity in "Apple way". Less is more.
+	
+		The first and biggest thing to mention: it's Adobe Flash free from now and forever.
+
+		It offers
+			· basic navigation features i.e. hotspots, thumbs;
+			· gallery for images;
+			· customisable iframe integration;
+			· mobile-first responsive design.
+-->
+
+<krpano showerrors="false">
+	<!-- События и функции событий -->
+	<include url="events.kml" />
+</krpano>

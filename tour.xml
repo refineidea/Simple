@@ -1,0 +1,102 @@
+<krpano version="1.19" title="Simple" onstart="startup();">
+
+	<include url="kml/simple.kml" />
+
+	<action name="startup">
+		loadscene(0, null, MERGE, BLEND(0.5));
+	</action>
+	
+	<scene name="scene_p806" title="Гостиная" onstart="" thumburl="panos/p806.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="63.190" vlookat="0.871" fovtype="VFOV" fov="80.000" maxpixelzoom="1" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p806.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p806.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+	
+	<scene name="scene_p805" title="Кухня" onstart="" thumburl="panos/p805.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="-32.842" vlookat="-0.439" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p805.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p805.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_p807" title="Детская" onstart="" thumburl="panos/p807.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="72.628" vlookat="0.430" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p807.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p807.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_p808" title="Спальня" onstart="" thumburl="panos/p808.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="-2.360" vlookat="0.149" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p808.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p808.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_p809" title="Кабинет" onstart="" thumburl="panos/p809.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="55.578" vlookat="-0.324" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p809.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p809.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_p810" title="Холл" onstart="" thumburl="panos/p810.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="-69.813" vlookat="0.202" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p810.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p810.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_p811" title="Спальня" onstart="" thumburl="panos/p811.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="-361.171" vlookat="0.068" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/p811.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
+				<cube url="panos/p811.tiles/mobile_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<action name="skin_nextscene">
+		calc(newsceneindex, scene[get(xml.scene)].index + %1);
+		if(newsceneindex GE 0,
+			if(newsceneindex LT scene.count,
+				loadscene(get(newsceneindex), null, MERGE, BLEND(0.5));
+			 );
+		 );
+	</action>
+
+</krpano>
