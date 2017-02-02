@@ -6,6 +6,7 @@
 	<plugin name="WebVR" devices="html5" keep="true"
 			url="../plugins/webvr.js"
 			onavailable=""
+			mobilevr_lens_fov="120"
 	/>
 
 	<action name="webvr_onentervr">
@@ -30,6 +31,7 @@
 		stopdelayedcall(vr_button_fadeout);
 
 		set(hotspot[tiles].visible, false);
+		hide_tiles();
 
 		tween(layer[webvr_exitbutton].alpha,0);
 		tween(layer[webvr_setupbutton].alpha,0);
