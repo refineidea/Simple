@@ -5,6 +5,7 @@
 <krpano>
 	
 	<_
+		auto_vr="false"
 		onclick_flag="true"
 		pages="0"
 		current_page="1"
@@ -49,9 +50,68 @@
 
 		onclick="
 			hide_tiles();
+			hide_background();
 			delayedcall(0.5,
 				loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear));
 			);
+		"
+
+		show="
+			set(visible, true);
+			calc(ath, my_ath + _.hlookat);
+			tween(alpha, 1);
+		"
+
+		hide="
+			tween(alpha, 0, , ,
+				set(visible, false);
+			);
+		"
+	/>
+
+	<style name="slider_mark_proto"
+		keep="true"
+		url="../img/slider_mark.png"
+
+		crop="0|0|50|50"
+		crop_empty="0|0|50|50"
+		crop_filled="50|0|50|50"
+
+		width="50"
+		height="50"
+		scale="0.7"
+		alpha="0"
+		visible="false"
+
+		distorted="true"
+		depth="1000"
+		atv="-25"
+		my_ath="0"
+
+		linkedpage="0"
+
+		onover="
+			vr_auto_click();
+			tween(depth, 950, 0.25);
+		"
+		onout="
+			tween(depth, 1000, 0.25);
+		"
+
+		onclick="
+			calc(_.delta, linkedpage - _.current_page);
+			next_page(get(_.delta));
+		"
+
+		show="
+			calc(ath, _.hlookat + my_ath);
+			set(visible, true);
+			tween(alpha, 1, 0.5);
+		"
+
+		hide="
+			set(visible, true);
+			tween(alpha, 0, 0.5);
 		"
 	/>
 
@@ -84,7 +144,7 @@
 
 		visible="false"
 
-		scale="0.5"
+		scale="0.7"
 		enabled="true"
 		alpha="1"
 
@@ -104,12 +164,181 @@
 		onclick="
 			tween(depth, 1000, 0.25);
 			if (_.state == 'closed',
-				show_tiles();
+				next_page(0);
 			,
 				hide_tiles();
+				hide_background();
+				hide_slider_marks();
 			);
 		"
 	/>
+
+	<hotspot
+		name="next_page"
+		keep="true"
+		url="../img/forward.png"
+
+		scale="0.7"
+		enabled="true"
+		visible="false"
+		alpha="0"
+		alpha_enabled="1"
+		alpha_disabled="0.25"
+
+		my_ath="40"
+		ath="0"
+		atv="0"
+		depth="1000"
+		distorted="true"
+
+		onover="
+			vr_auto_click();
+			tween(depth, 950, 0.25);
+		"
+		onout="
+			tween(depth, 1000, 0.25);
+		"
+
+		onclick="
+			next_page(1);
+		"
+
+		show="
+			calc(ath, view.hlookat + my_ath);
+			set(visible, true);
+			if (enabled,
+				tween(alpha, get(alpha_enabled), 0.5);
+			,
+				tween(alpha, get(alpha_disabled), 0.5);
+			);
+			
+		"
+
+		hide="
+			tween(alpha, 0, 0.5, , 
+				set(visible, false);
+			);
+		"
+
+		update_state="
+			if (enabled,
+				set(alpha, 1);
+			,
+				set(alpha, 0.5);
+			);
+		"
+	/>
+
+	<hotspot
+		name="prev_page"
+		keep="true"
+		url="../img/forward.png"
+
+		scale="0.7"
+		rotate="180"
+		enabled="false"
+		visible="false"
+		alpha="0"
+		alpha_enabled="1"
+		alpha_disabled="0.25"
+
+		my_ath="-40"
+		ath="0"
+		atv="0"
+		depth="1000"
+		distorted="true"
+
+		onover="
+			vr_auto_click();
+			tween(depth, 950, 0.25);
+		"
+		onout="
+			tween(depth, 1000, 0.25);
+		"
+
+
+		onclick="
+			next_page(-1);
+		"
+
+		show="
+			calc(ath, view.hlookat + my_ath);
+			set(visible, true);
+			if (enabled,
+				tween(alpha, get(alpha_enabled), 0.5);
+			,
+				tween(alpha, get(alpha_disabled), 0.5);
+			);
+		"
+
+		hide="
+			tween(alpha, 0, 0.5, , 
+				set(visible, false);
+			);
+		"
+
+		update_state="
+			if (enabled,
+				set(alpha, 1);
+			,
+				set(alpha, 0.5);
+			);
+		"
+	/>
+
+	<!-- 
+		%1 – +1, 0 or -1
+	-->
+	<action name="next_page">
+
+		if (%1 == 0,
+
+			copy(_.hlookat, view.hlookat);
+
+			if (_.state == 'closed',
+				show_background();
+				show_slider_marks();
+				show_tiles();
+			);
+		,
+			hide_tiles(
+
+				add(_.current_page, %1);
+				clamp(_.current_page, 1, get(_.pages));
+
+				update_slider_marks();
+
+				show_tiles();
+			);
+		);
+
+		if ((_.current_page == 1) AND (_.current_page == _.pages),
+			set(hotspot[prev_page].enabled, false);
+			set(hotspot[next_page].enabled, false);
+
+			set(hotspot[prev_page].visible, false);
+			set(hotspot[next_page].visible, false);
+		,
+			if ((_.current_page GT 1) AND (_.current_page LT _.pages),
+				set(hotspot[prev_page].enabled, true);
+				set(hotspot[next_page].enabled, true);
+			,
+				if (_.current_page == 1,
+					set(hotspot[prev_page].enabled, false);
+					set(hotspot[next_page].enabled, true);
+				,
+					if (_.current_page == _.pages,
+						set(hotspot[next_page].enabled, false);
+						set(hotspot[prev_page].enabled, true);							
+					);
+				);
+			);					
+		);
+
+		callwith(hotspot[prev_page], hotspot[prev_page].update_state);
+		callwith(hotspot[next_page], hotspot[next_page].update_state);
+
+	</action>
 
 	<action name="add_tiles">
 
@@ -130,11 +359,12 @@
 
 		for (set(_.p, 0), _.p LT _.pages, inc(_.p),
 
+
 			if (_.pages == 1,
 				copy(_.tiles_on_page, scene.count);
 			,				
 				if (_.p LT _.full_pages_count,
-					copy(_.tiles_on_page, 9);
+					set(_.tiles_on_page, 9);
 				,
 					copy(_.tiles_on_page, _.last_page);
 				);
@@ -205,25 +435,32 @@
 		switch(hotspot[tiles].crop, '80|0|80|80', '0|0|80|80');
 		set(_.state, 'open');
 
-		set(hotspot[bg_f].visible, true);
-		set(hotspot[bg_r].visible, true);
-		set(hotspot[bg_b].visible, true);
-		set(hotspot[bg_l].visible, true);
-		set(hotspot[bg_u].visible, true);
-		set(hotspot[bg_d].visible, true);
-
-		tween(hotspot[bg_f].alpha|hotspot[bg_r].alpha|hotspot[bg_b].alpha|hotspot[bg_l].alpha|hotspot[bg_u].alpha|hotspot[bg_d].alpha, 1|1|1|1|1|1);
-
 		if (_.pages == 1,
 			if (scene.count LE 3,
 				copy(_.cols,  scene.count);
 				set(_.rows, 1);
 			,
-				set(_.cols, 3);
 				calc(_.rows,  scene.count / _.cols);
 				Math.ceil(_.rows);
 				mod(_.last_row_cols, scene.count, _.cols);
-			);	
+			);
+		,
+			if (_.current_page LE _.full_pages_count,
+				set(_.cols, 3);
+				set(_.rows, 3);
+				set(_.last_row_cols, 0);
+			,
+				if (_.last_page LE 3,
+					copy(_.cols, _.last_page);
+					set(_.rows, 1);
+					set(_.last_row_cols, 0);
+				,
+					set(_.cols, 3);
+					calc(_.rows, _.last_page / _.cols);
+					Math.ceil(_.rows);
+					mod(_.last_row_cols, _.last_page, _.cols);
+				);
+			);
 		);
 
 		for (set(_.i, 0), _.i LT _.rows, inc(_.i),
@@ -236,22 +473,13 @@
 
 			for (set(_.j, 0), _.j LT _.cols, inc(_.j),
 
-				calc(_.k, _.i * 3 + _.j);
-				txtadd(_.tile_name, 'tile_', get(_.k));
-
-				calc(hotspot[get(_.tile_name)].ath, view.hlookat);
-				set(hotspot[get(_.tile_name)].atv, 20);
-				set(hotspot[get(_.tile_name)].visible, true);
-				set(hotspot[get(_.tile_name)].width, 180);
-
-				calc(hotspot[get(_.tile_name)].new_ath, hotspot[get(_.tile_name)].my_ath + view.hlookat);
-
-				tween(hotspot[get(_.tile_name)].ath, get(hotspot[get(_.tile_name)].new_ath), 0.5);
-				tween(hotspot[get(_.tile_name)].atv, 0, 0.5);
-				tween(hotspot[get(_.tile_name)].oy, get(hotspot[get(_.tile_name)].my_oy), 0.5);
-				tween(hotspot[get(_.tile_name)].alpha, 1, 0.5, easeInExpo);
+				calc(_.k, (_.current_page - 1) * 9 + _.i * 3 + _.j);
+				txtadd(hotspot_list[get(_.k)].name, 'tile_', get(_.k));				
 			);
 		);
+
+		show_hotspot_list_recurrent(hotspot_list.count);
+
 	</action>
 
 	<!-- 
@@ -267,11 +495,27 @@
 				copy(_.cols,  scene.count);
 				set(_.rows, 1);
 			,
-				set(_.cols, 3);
 				calc(_.rows,  scene.count / _.cols);
 				Math.ceil(_.rows);
 				mod(_.last_row_cols, scene.count, _.cols);
-			);	
+			);
+		,
+			if (_.current_page LE _.full_pages_count,
+				set(_.cols, 3);
+				set(_.rows, 3);
+				set(_.last_row_cols, 0);
+			,
+				if (_.last_page LE 3,
+					copy(_.cols, _.last_page);
+					set(_.rows, 1);
+					set(_.last_row_cols, 0);
+				,
+					set(_.cols, 3);
+					calc(_.rows, _.last_page / _.cols);
+					Math.ceil(_.rows);
+					mod(_.last_row_cols, _.last_page, _.cols);
+				);
+			);
 		);
 
 		for (set(_.i, 0), _.i LT _.rows, inc(_.i),
@@ -284,11 +528,76 @@
 
 			for (set(_.j, 0), _.j LT _.cols, inc(_.j),
 
-				calc(_.k, _.i * 3 + _.j);
+				calc(_.k, (_.current_page - 1) * 9 + _.i * 3 + _.j);
 				txtadd(hotspot_list[get(_.k)].name, 'tile_', get(_.k));
 			);
 		);
 
+		hide_hotspot_list_recurrent(hotspot_list.count, %1);
+
+	</action>
+
+	<action name="add_slider_marks">
+
+		for(set(_.i, 1), _.i LE _.pages, inc(_.i),
+
+			txtadd(_.slider_mark_name, 'pagemark_', get(_.i));
+			addhotspot(get(_.slider_mark_name));
+			
+			hotspot[get(_.slider_mark_name)].loadstyle('slider_mark_proto');
+
+			copy(hotspot[get(_.slider_mark_name)].linkedpage, _.i);
+
+			if (_.i == _.current_page,
+				copy(hotspot[get(_.slider_mark_name)].crop, hotspot[get(_.slider_mark_name)].crop_filled);
+			);			
+
+			calc(hotspot[get(_.slider_mark_name)].my_ath, -4*(_.pages - 1)/2 + 4*(_.i - 1));
+
+		);
+
+	</action>
+
+	<action name="show_slider_marks">
+
+		if (_.pages GT 1,
+			for(set(_.i, 1), _.i LE _.pages, inc(_.i),
+
+				txtadd(_.slider_mark_name, 'pagemark_', get(_.i));
+				callwith(hotspot[get(_.slider_mark_name)], hotspot[get(_.slider_mark_name)].show());
+			);
+		);	
+
+	</action>
+
+	<action name="hide_slider_marks">
+
+		if (_.pages GT 1,
+
+			for(set(_.i, 1), _.i LE _.pages, inc(_.i),
+
+				txtadd(_.slider_mark_name, 'pagemark_', get(_.i));
+				callwith(hotspot[get(_.slider_mark_name)], hotspot[get(_.slider_mark_name)].hide());
+			);
+		);
+
+	</action>
+
+	<action name="update_slider_marks">
+		if (_.pages GT 1,
+			for(set(_.i, 1), _.i LE _.pages, inc(_.i),
+
+				txtadd(_.slider_mark_name, 'pagemark_', get(_.i));
+				if (_.i == _.current_page,
+					copy(hotspot[get(_.slider_mark_name)].crop, hotspot[get(_.slider_mark_name)].crop_filled);
+				,
+					copy(hotspot[get(_.slider_mark_name)].crop, hotspot[get(_.slider_mark_name)].crop_empty);
+				);
+			);
+		);
+	</action>
+
+	<action name="hide_background">
 		tween(hotspot[bg_f].alpha|hotspot[bg_r].alpha|hotspot[bg_b].alpha|hotspot[bg_l].alpha|hotspot[bg_u].alpha|hotspot[bg_d].alpha, 0|0|0|0|0|0, 0.5, ,
 
 			set(hotspot[bg_f].visible, false);
@@ -299,8 +608,22 @@
 			set(hotspot[bg_d].visible, false);
 		);
 
-		hide_hotspot_list_recurrent(hotspot_list.count);
+		callwith(hotspot[next_page], hotspot[next_page].hide);
+		callwith(hotspot[prev_page], hotspot[next_page].hide);
+	</action>
 
+	<action name="show_background">
+		set(hotspot[bg_f].visible, true);
+		set(hotspot[bg_r].visible, true);
+		set(hotspot[bg_b].visible, true);
+		set(hotspot[bg_l].visible, true);
+		set(hotspot[bg_u].visible, true);
+		set(hotspot[bg_d].visible, true);
+
+		tween(hotspot[bg_f].alpha|hotspot[bg_r].alpha|hotspot[bg_b].alpha|hotspot[bg_l].alpha|hotspot[bg_u].alpha|hotspot[bg_d].alpha, 1|1|1|1|1|1);
+
+		callwith(hotspot[next_page], hotspot[next_page].show);
+		callwith(hotspot[prev_page], hotspot[next_page].show);
 	</action>
 
 	<!-- 
@@ -308,16 +631,36 @@
 		so all donecalls could be executed.
 
 		%1 – count of tiles to hide.
+		%2 – donecall
 	-->
 	<action name="hide_hotspot_list_recurrent">
 
-		calc(_.i, %1 - 1);
+		calc(_.j, %1 - 1);
 
 		if (%1 GE 1,
-			set(_.hs_name, get(hotspot_list[get(_.i)].name));
-			set(hotspot[get(hotspot_list[get(_.i)].name)].alpha, 0);
-			set(hotspot[get(hotspot_list[get(_.i)].name)].visible, false);
-			delayedcall(0.01, hide_hotspot_list_recurrent(get(_.i)));
+			set(_.hs_name, get(hotspot_list[get(_.j)].name));
+
+			hotspot_list.removearrayitem(get(_.j));
+
+			callwith(hotspot[get(_.hs_name)], hotspot[get(_.hs_name)].hide());
+			delayedcall(0, hide_hotspot_list_recurrent(get(_.j), %2));
+		,
+			delayedcall(0.2, %2);
+		);
+
+	</action>
+
+	<action name="show_hotspot_list_recurrent">
+
+		calc(_.j, %1 - 1);
+
+		if (%1 GE 1,
+			set(_.hs_name, get(hotspot_list[get(_.j)].name));
+
+			hotspot_list.removearrayitem(get(_.j));
+
+			callwith(hotspot[get(_.hs_name)], hotspot[get(_.hs_name)].show());
+			delayedcall(0.02, show_hotspot_list_recurrent(get(_.j)));
 		);
 
 	</action>
@@ -325,7 +668,16 @@
 	<events name="vr_events" keep="true"
 		onxmlcomplete="
 			add_tiles();
+			add_slider_marks();
 			set(webvr.mobilevr_lens_fov, 120);
+
+			if (_.auto_vr,
+				delayedcall(1, webvr.enterVR());
+			);
+		"
+
+		onnewscene="
+			copy(hotspot[tiles].ath, view.hlookat);
 		"
 
 		onviewchange="
@@ -469,5 +821,10 @@
 		ath="0"
 		atv="90"
 	/>
+
+	<action name="console.log">	
+		trace('%1 = ', %1);
+		showlog();
+	</action>
 	
 </krpano>
