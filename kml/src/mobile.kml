@@ -1,0 +1,50 @@
+<!--
+	Mobile layout, VR mode entrypoint
+-->
+
+<krpano devices="mobile">
+
+	<layer name="go_VR"
+		url="../img/glasses.png"
+		keep="true"
+
+		align="bottomcenter"
+		x="0" y="24"
+		y_shown="24"
+
+		ondown="
+			callwith(layer[ring], layer[ring].show());
+		"
+		onup="
+			callwith(layer[ring], layer[ring].hide());
+		"
+
+		onclick="
+			webvr.enterVR();
+		" 
+	/>
+
+	<layer name="ring"
+		url="../img/ring.png"
+		keep="true"
+
+		align="bottomcenter"
+		x="0" y="15"
+
+		visible="false"
+		alpha="0"
+
+		enabled="false"
+
+		show="
+			set(visible, true);
+			tween(alpha, 1, 0.05);
+		"
+		hide="
+			tween(alpha, 0, 0.05, , 
+				set(visible, false);
+			);
+		"
+	/>
+
+</krpano>

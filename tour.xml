@@ -6,97 +6,106 @@
 		loadscene(0, null, MERGE, BLEND(0.5));
 	</action>
 	
-	<scene name="scene_p806" title="Гостиная" onstart="" thumburl="panos/p806.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p943" title="Прихожая" onstart="" thumburl="panos/p943.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="63.190" vlookat="0.871" fovtype="VFOV" fov="80.000" maxpixelzoom="1" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-108.105" vlookat="0.122" fovtype="MFOV" fov="120" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p806.tiles/preview.jpg" />
+		<preview url="panos/p943.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p806.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p943.tiles/vr/pano_%s.jpg" />
 		</image>
 
-	</scene>
-	
-	<scene name="scene_p805" title="Кухня" onstart="" thumburl="panos/p805.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="-32.842" vlookat="-0.439" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p805.tiles/preview.jpg" />
-
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p805.tiles/mobile_%s.jpg" />
-		</image>
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="↖ Кухня" ath="-71.722" atv="0" linkedscene="scene_p937" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="Гостиная ↗" ath="-54.976" atv="8" linkedscene="scene_p939" />
+		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Спальня ↗" ath="89.311" atv="-10" linkedscene="scene_p940" />
+		<hotspot name="spot4" style="skin_hotspotstyle_signature" html="↖ Детская (красная)" ath="89.640" atv="-2.33" linkedscene="scene_p941" />
+		<hotspot name="spot5"  style="skin_hotspotstyle_signature" html="↙ Детская (розовая)" ath="89.858" atv="6" linkedscene="scene_p942" />
 
 	</scene>
 
-	<scene name="scene_p807" title="Детская" onstart="" thumburl="panos/p807.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p937" title="Кухня" onstart="" thumburl="panos/p937.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="72.628" vlookat="0.430" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-180.647" vlookat="0.222" fovtype="MFOV" fov="113.487" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p807.tiles/preview.jpg" />
+		<preview url="panos/p937.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p807.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p937.tiles/vr/pano_%s.jpg" />
 		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Прихожая ↗" ath="50" atv="3.244" linkedscene="scene_p943" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="↑ Гостиная" ath="-15" atv="3.174" linkedscene="scene_p939" />
 
 	</scene>
 
-	<scene name="scene_p808" title="Спальня" onstart="" thumburl="panos/p808.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p939" title="Гостиная" onstart="" thumburl="panos/p939.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="-2.360" vlookat="0.149" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="59.905" vlookat="0.491" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p808.tiles/preview.jpg" />
+		<preview url="panos/p939.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p808.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p939.tiles/vr/pano_%s.jpg" />
 		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="↑ Кухня" ath="-9.925" atv="2.071" linkedscene="scene_p937" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Прихожая" ath="-50.115" atv="1.461" linkedscene="scene_p943" />
 
 	</scene>
 
-	<scene name="scene_p809" title="Кабинет" onstart="" thumburl="panos/p809.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p940" title="Спальня" onstart="" thumburl="panos/p940.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="55.578" vlookat="-0.324" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-51.942" vlookat="-1.333" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p809.tiles/preview.jpg" />
+		<preview url="panos/p940.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p809.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p940.tiles/vr/pano_%s.jpg" />
 		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Прихожая ↗" ath="-68" atv="-5" linkedscene="scene_p943" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="Детская (красная) ↘" ath="-68" atv="3" linkedscene="scene_p942" />
+		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Детская (розовая) →" ath="-68" atv="11" linkedscene="scene_p941" />
 
 	</scene>
 
-	<scene name="scene_p810" title="Холл" onstart="" thumburl="panos/p810.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p941" title="Детская (розовая)" onstart="" thumburl="panos/p941.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="-69.813" vlookat="0.202" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-123.221" vlookat="10.166" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p810.tiles/preview.jpg" />
+		<preview url="panos/p941.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p810.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p941.tiles/vr/pano_%s.jpg" />
 		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="← Детская (красная)" ath="-14.598" atv="8" linkedscene="scene_p942" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="↑ Спальня" ath="5.091" atv="0" linkedscene="scene_p940" />
+		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Прихожая →" ath="-3.433" atv="16" linkedscene="scene_p943" />
 
 	</scene>
 
-	<scene name="scene_p811" title="Спальня" onstart="" thumburl="panos/p811.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_p942" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="-361.171" vlookat="0.068" fovtype="MFOV" fov="120.000" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/p811.tiles/preview.jpg" />
+		<preview url="panos/p942.tiles/preview.jpg" />
 
-		<image type="CUBE" multires="false" tilesize="1024" progressive="false">
-				<cube url="panos/p811.tiles/mobile_%s.jpg" />
+		<image >
+			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
 		</image>
 
-	</scene>
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
+		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
+		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
 
-	<action name="skin_nextscene">
-		calc(newsceneindex, scene[get(xml.scene)].index + %1);
-		if(newsceneindex GE 0,
-			if(newsceneindex LT scene.count,
-				loadscene(get(newsceneindex), null, MERGE, BLEND(0.5));
-			 );
-		 );
-	</action>
+	</scene>
 
 </krpano>

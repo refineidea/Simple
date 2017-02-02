@@ -3,10 +3,10 @@
 		onkeydown="
 			
 			if(keycode == 17,
-				set(skin_settings.ctrl_flag, true);
+				set(_.ctrl_flag, true);
 			);
 		
-			if(skin_settings.ctrl_flag,
+			if(_.ctrl_flag,
 				set(vlookat_moveforce, 0);
 				set(hlookat_moveforce, 0);
 				
@@ -20,7 +20,7 @@
 		"
 		onkeyup="
 			if(keycode == 17,
-				set(skin_settings.ctrl_flag, false);
+				set(_.ctrl_flag, false);
 			);
 		"
 	/>

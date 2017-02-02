@@ -1,0 +1,44 @@
+<krpano>
+	<layer name="webvr_enterbutton"
+		visible="false"
+	/>
+
+	<plugin name="WebVR" devices="html5" keep="true"
+			url="../plugins/webvr.js"
+			onavailable=""
+	/>
+
+	<action name="webvr_onentervr">
+		tween(layer[webvr_enterbutton].alpha,0,0);
+
+		// +
+		set(hotspot[tiles].visible, true);
+
+		webvr_showbuttons();
+		webvr_hide_all_non_vr_layers();
+
+		<!-- when the screen size is unknown an no custom size is set, open the setup screen on entering the VR mode -->
+		if(webvr.ismobilevr == true AND !webvr.isfake AND ask_user_for_screensize == true AND webvr.mobilevr_screensize == 'auto',
+			set(ask_user_for_screensize, false);
+			vr_setup();
+		  );
+		if(webvr.isfake,
+			webvr_show_fakemode_info(true);
+		  );
+	</action>
+
+	<action name="webvr_onexitvr">
+		stopdelayedcall(vr_button_fadeout);
+
+		// +
+		set(hotspot[tiles].visible, false);
+
+		// tween(layer[webvr_enterbutton].alpha,1);
+		tween(layer[webvr_exitbutton].alpha,0);
+		tween(layer[webvr_setupbutton].alpha,0);
+		
+		webvr_show_fakemode_info(false);
+
+		webvr_restore_layers();
+	</action>
+</krpano>

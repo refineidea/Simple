@@ -1,0 +1,473 @@
+<!--
+	VR UI
+-->
+
+<krpano>
+	
+	<_
+		onclick_flag="true"
+		pages="0"
+		current_page="1"
+		cols="0"
+		last_row_cols="0"
+		rows="0"
+		ath_step="22.5"
+		k="0"
+		state="closed"
+	/>
+
+	<style name="simple_vr_tile"
+
+		keep="true"
+
+		distorted="true"
+		depth="1000"
+		width="180"
+		height="120"
+		zorder="10"
+
+		visible="false"
+		alpha="0"
+
+		my_page="0"
+		my_col="0"
+		my_row="0"
+		my_oy="0"
+		my_ath="0"
+
+		oy="0"
+
+		linkedscene=""
+
+		onover="
+			vr_auto_click();
+			tween(depth, 950, 0.25);
+		"
+		onout="
+			tween(depth, 1000, 0.25);
+		"
+
+		onclick="
+			hide_tiles();
+			delayedcall(0.5,
+				loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear));
+			);
+		"
+	/>
+
+	<hotspot
+		name="reload"
+		keep="true"
+		url="../img/reload.png"
+
+		ath="0"
+		atv="-45"
+		depth="off"
+		distorted="true"
+
+		scale="0.5"
+		enabled="true"
+
+		onover="
+			vr_auto_click();
+		"
+		onclick="
+			openurl('./', '_self');
+		"
+	/>
+
+	<hotspot
+		name="tiles"
+		keep="true"
+		url="../img/tiles.png"
+		crop="0|0|80|80"
+
+		visible="false"
+
+		scale="0.5"
+		enabled="true"
+		alpha="1"
+
+		ath="0"
+		atv="30"
+		depth="1000"
+		distorted="true"
+
+		onover="
+			vr_auto_click();
+			tween(depth, 950, 0.25);
+		"
+		onout="
+			tween(depth, 1000, 0.25);
+		"
+
+		onclick="
+			tween(depth, 1000, 0.25);
+			if (_.state == 'closed',
+				show_tiles();
+			,
+				hide_tiles();
+			);
+		"
+	/>
+
+	<action name="add_tiles">
+
+		if (scene.count LE 9,
+			set(_.pages, 1);
+		,
+			div(_.pages, scene.count, 9);
+			Math.ceil(_.pages);
+		);
+
+		mod(_.last_page, scene.count, 9);
+
+		if (_.last_page == 0,
+			copy(_.full_pages_count, _.pages);
+		,
+			calc(_.full_pages_count, _.pages - 1);
+		);
+
+		for (set(_.p, 0), _.p LT _.pages, inc(_.p),
+
+			if (_.pages == 1,
+				copy(_.tiles_on_page, scene.count);
+			,				
+				if (_.p LT _.full_pages_count,
+					copy(_.tiles_on_page, 9);
+				,
+					copy(_.tiles_on_page, _.last_page);
+				);
+			);
+			
+			if (_.tiles_on_page LE 3,
+				copy(_.cols, _.tiles_on_page);
+				set(_.rows, 1);
+			,
+				set(_.cols, 3);
+				calc(_.rows, _.tiles_on_page / _.cols);
+				Math.ceil(_.rows);
+				mod(_.last_row_cols, _.tiles_on_page, _.cols);
+			);
+
+			for (set(_.i, 0), _.i LT _.rows, inc(_.i),
+
+				calc(_.last_row_index, _.rows - 1);
+
+				if ((_.i == _.last_row_index) AND (_.last_row_cols != 0),
+					copy(_.cols, _.last_row_cols);
+				);
+
+				for (set(_.j, 0), _.j LT _.cols, inc(_.j),
+
+					calc(_.k, _.p * 9 + _.i * 3 + _.j);
+
+					txtadd(_.tile_name, 'tile_', get(_.k));
+					addhotspot(get(_.tile_name));
+
+					hotspot[get(_.tile_name)].loadstyle('simple_vr_tile');
+					copy(hotspot[get(_.tile_name)].url, scene[get(_.k)].thumburl);
+
+					copy(hotspot[get(_.tile_name)].my_page, _.p);
+					copy(hotspot[get(_.tile_name)].my_col, _.j);
+					copy(hotspot[get(_.tile_name)].my_row, _.i);
+
+					copy(hotspot[get(_.tile_name)].linkedscene, scene[get(_.k)].name);
+
+					if (_.rows == 1,
+						copy(hotspot[get(_.tile_name)].my_oy, 0);
+					,
+						if (_.rows == 2,
+							calc(hotspot[get(_.tile_name)].my_oy, 130 * _.i - 65);
+						,
+							if (_.rows == 3,
+								calc(hotspot[get(_.tile_name)].my_oy, 130 * (_.i - 1));
+							);		
+						);
+					);
+
+					if ((_.cols == 1) OR (_.cols == 3),
+						calc(hotspot[get(_.tile_name)].my_ath, 22.5 * (_.j - 1));
+					,
+						calc(hotspot[get(_.tile_name)].my_ath, 22.5 * _.j - 11.25);
+					);
+
+					copy(hotspot[get(_.tile_name)].ath, hotspot[get(_.tile_name)].my_ath);
+					copy(hotspot[get(_.tile_name)].oy, hotspot[get(_.tile_name)].my_oy);
+				);
+			);
+		);
+
+	</action>
+
+	<action name="show_tiles">
+
+		switch(hotspot[tiles].crop, '80|0|80|80', '0|0|80|80');
+		set(_.state, 'open');
+
+		set(hotspot[bg_f].visible, true);
+		set(hotspot[bg_r].visible, true);
+		set(hotspot[bg_b].visible, true);
+		set(hotspot[bg_l].visible, true);
+		set(hotspot[bg_u].visible, true);
+		set(hotspot[bg_d].visible, true);
+
+		tween(hotspot[bg_f].alpha|hotspot[bg_r].alpha|hotspot[bg_b].alpha|hotspot[bg_l].alpha|hotspot[bg_u].alpha|hotspot[bg_d].alpha, 1|1|1|1|1|1);
+
+		if (_.pages == 1,
+			if (scene.count LE 3,
+				copy(_.cols,  scene.count);
+				set(_.rows, 1);
+			,
+				set(_.cols, 3);
+				calc(_.rows,  scene.count / _.cols);
+				Math.ceil(_.rows);
+				mod(_.last_row_cols, scene.count, _.cols);
+			);	
+		);
+
+		for (set(_.i, 0), _.i LT _.rows, inc(_.i),
+
+			calc(_.last_row_index, _.rows - 1);
+
+			if ((_.i == _.last_row_index) AND (_.last_row_cols != 0),
+				copy(_.cols, _.last_row_cols);
+			);
+
+			for (set(_.j, 0), _.j LT _.cols, inc(_.j),
+
+				calc(_.k, _.i * 3 + _.j);
+				txtadd(_.tile_name, 'tile_', get(_.k));
+
+				calc(hotspot[get(_.tile_name)].ath, view.hlookat);
+				set(hotspot[get(_.tile_name)].atv, 20);
+				set(hotspot[get(_.tile_name)].visible, true);
+				set(hotspot[get(_.tile_name)].width, 180);
+
+				calc(hotspot[get(_.tile_name)].new_ath, hotspot[get(_.tile_name)].my_ath + view.hlookat);
+
+				tween(hotspot[get(_.tile_name)].ath, get(hotspot[get(_.tile_name)].new_ath), 0.5);
+				tween(hotspot[get(_.tile_name)].atv, 0, 0.5);
+				tween(hotspot[get(_.tile_name)].oy, get(hotspot[get(_.tile_name)].my_oy), 0.5);
+				tween(hotspot[get(_.tile_name)].alpha, 1, 0.5, easeInExpo);
+			);
+		);
+	</action>
+
+	<!-- 
+		%1 – donecall
+	-->
+	<action name="hide_tiles">
+
+		switch(hotspot[tiles].crop, '80|0|80|80', '0|0|80|80');
+		set(_.state, 'closed');
+
+		if (_.pages == 1,
+			if (scene.count LE 3,
+				copy(_.cols,  scene.count);
+				set(_.rows, 1);
+			,
+				set(_.cols, 3);
+				calc(_.rows,  scene.count / _.cols);
+				Math.ceil(_.rows);
+				mod(_.last_row_cols, scene.count, _.cols);
+			);	
+		);
+
+		for (set(_.i, 0), _.i LT _.rows, inc(_.i),
+
+			calc(_.last_row_index, _.rows - 1);
+
+			if ((_.i == _.last_row_index) AND (_.last_row_cols != 0),
+				copy(_.cols, _.last_row_cols);
+			);
+
+			for (set(_.j, 0), _.j LT _.cols, inc(_.j),
+
+				calc(_.k, _.i * 3 + _.j);
+				txtadd(hotspot_list[get(_.k)].name, 'tile_', get(_.k));
+			);
+		);
+
+		tween(hotspot[bg_f].alpha|hotspot[bg_r].alpha|hotspot[bg_b].alpha|hotspot[bg_l].alpha|hotspot[bg_u].alpha|hotspot[bg_d].alpha, 0|0|0|0|0|0, 0.5, ,
+
+			set(hotspot[bg_f].visible, false);
+			set(hotspot[bg_r].visible, false);
+			set(hotspot[bg_b].visible, false);
+			set(hotspot[bg_l].visible, false);
+			set(hotspot[bg_u].visible, false);
+			set(hotspot[bg_d].visible, false);
+		);
+
+		hide_hotspot_list_recurrent(hotspot_list.count);
+
+	</action>
+
+	<!-- 
+		This function hides tiles recurrently,
+		so all donecalls could be executed.
+
+		%1 – count of tiles to hide.
+	-->
+	<action name="hide_hotspot_list_recurrent">
+
+		calc(_.i, %1 - 1);
+
+		if (%1 GE 1,
+			set(_.hs_name, get(hotspot_list[get(_.i)].name));
+			set(hotspot[get(hotspot_list[get(_.i)].name)].alpha, 0);
+			set(hotspot[get(hotspot_list[get(_.i)].name)].visible, false);
+			delayedcall(0.01, hide_hotspot_list_recurrent(get(_.i)));
+		);
+
+	</action>
+
+	<events name="vr_events" keep="true"
+		onxmlcomplete="
+			add_tiles();
+			set(webvr.mobilevr_lens_fov, 120);
+		"
+
+		onviewchange="
+			vr_menu_following();
+		"
+	/>
+
+	<action name="vr_menu_following" type="Javascript" devices="html5"><![CDATA[
+
+		var hs1 = krpano.get("hotspot[reload]");
+		var hs2 = krpano.get("hotspot[tiles]");
+
+		if(!hs1.hovering)
+		{
+			var f = 0.01;	// follow speed factor
+
+			var h = krpano.view.hlookat;
+			var v = krpano.view.vlookat;
+			var hsh = hs1.ath;
+			var hsv = hs1.atv;
+
+			h   = (h  -(h|0))   + (((h|0)  +360180)%360) - 180.0;
+			hsh = (hsh-(hsh|0)) + (((hsh|0)+360180)%360) - 180.0;
+
+			dh = h - hsh;
+			dh += (dh>180) ? -360 : (dh<-180) ? 360 : 0
+
+			hsh += dh*f;
+
+			var a = Math.max(Math.abs(v - hs1.atv) / 90, Math.abs(h - hs1.ath) / 90);
+			a = Math.max(1.0 - 2.0*Math.sqrt(a), 0);
+
+			v = v + 55.0 - v*1.5;
+			hsv = hsv*(1-f) + v*f;
+
+			hs2.ath = hs1.ath = hsh;
+			hs1.alpha = a;
+
+		}
+
+	]]></action>
+
+	<hotspot name="bg_f"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="0"
+		atv="0"
+	/>
+
+	<hotspot name="bg_r"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="90"
+		atv="0"
+	/>
+
+	<hotspot name="bg_b"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="-180"
+		atv="0"
+	/>
+
+	<hotspot name="bg_l"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="-90"
+		atv="0"
+	/>
+
+	<hotspot name="bg_u"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="0"
+		atv="-90"
+	/>
+
+	<hotspot name="bg_d"
+		keep="true"
+		url="../img/bg.png"
+
+		distorted="true"
+		depth="off"
+		enabled="false"
+
+		visible="false"
+		alpha="0"
+
+		width="1000"
+		height="1000"
+		ath="0"
+		atv="90"
+	/>
+	
+</krpano>

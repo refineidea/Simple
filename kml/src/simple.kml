@@ -1,21 +1,36 @@
 <!--
-Simple is a lightweight all-around skin for krpano panoramic player.
-And yes, it's about simplicity in "Apple way". Less is more.
+		Simple is a lightweight all-around skin for krpano panoramic player.
+		And yes, it's about simplicity in "Apple way". Less is more.
+	
+		The first and biggest thing to mention: it's Adobe Flash free from now and forever.
 
-The first and biggest thing to mention: it's Adobe Flash free.
-
-It offers
-	· basic navigation features i.e. hotspots, thumbs;
-	· gallery for images;
-	· customizable iframe integration;
-	· mobile-first responsive design.
+		It offers (in plans)
+			· VR-first design;
+			· mobile-second;
+			· desktop-third;
+			· mixed 360-photo and 360-video in tour;
+			· basic navigation features i.e. hotspots, thumbs;
+			· gallery for images (working nicely everywhere);
+			· customizable iframe integration;
+			· sequencer;
+			· scenario manager for advanced automatic panoraming.			
 -->
 
 <krpano showerrors="false">
+	
+	<!-- WebVR plugin -->
+	<include url="../plugins/webvr.xml" devices="html5" />
 
-	<!-- Object to contain varaibles in global context -->	
-	<_/>
+	<!-- Overridden features of vanilla version of webvr -->
+	<include url="webvr_overridings.kml" devices="html5" />
 
+	<!-- Common events -->
 	<include url="events.kml" />
+
+	<!-- Mobile user interface -->
+	<include url="mobile.kml" />
+
+	<!-- VR user interface -->
+	<include url="vr.kml" />
 
 </krpano>
