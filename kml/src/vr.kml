@@ -5,7 +5,7 @@
 <krpano>
 	
 	<_
-		auto_vr="false"
+		auto_vr="true"
 		onclick_flag="true"
 		pages="0"
 		current_page="1"
@@ -298,6 +298,7 @@
 			copy(_.hlookat, view.hlookat);
 
 			if (_.state == 'closed',
+				update_pagination();
 				show_background();
 				show_slider_marks();
 
@@ -311,12 +312,18 @@
 				add(_.current_page, %1);
 				clamp(_.current_page, 1, get(_.pages));
 
+				update_pagination();
+
 				update_slider_marks();
 
 				get_current_tile_list();
 				show_hotspot_list_recurrent(hotspot_list.count);
 			);
 		);
+
+	</action>
+
+	<action name="update_pagination">
 
 		if ((_.current_page == 1) AND (_.current_page == _.pages),
 			set(hotspot[prev_page].enabled, false);
@@ -365,7 +372,6 @@
 
 		for (set(_.p, 0), _.p LT _.pages, inc(_.p),
 
-
 			if (_.pages == 1,
 				copy(_.tiles_on_page, scene.count);
 			,				
@@ -380,12 +386,19 @@
 				copy(_.cols, _.tiles_on_page);
 				set(_.rows, 1);
 			,
-				set(_.cols, 3);
-				calc(_.rows, _.tiles_on_page / _.cols);
-				Math.ceil(_.rows);
-				mod(_.last_row_cols, _.tiles_on_page, _.cols);
+				if (_.tiles_on_page == 4,
+					set(_.cols, 2);
+					set(_.rows, 2);
+					set(_.last_row_cols, 0);
+				,
+					set(_.cols, 3);
+					calc(_.rows, _.tiles_on_page / _.cols);
+					Math.ceil(_.rows);
+					mod(_.last_row_cols, _.tiles_on_page, _.cols);
+				);				
 			);
 
+			calc(_.k, _.p * 9);
 			for (set(_.i, 0), _.i LT _.rows, inc(_.i),
 
 				calc(_.last_row_index, _.rows - 1);
@@ -396,7 +409,6 @@
 
 				for (set(_.j, 0), _.j LT _.cols, inc(_.j),
 
-					calc(_.k, _.p * 9 + _.i * 3 + _.j);
 
 					txtadd(_.tile_name, 'tile_', get(_.k));
 					addhotspot(get(_.tile_name));
@@ -430,6 +442,8 @@
 
 					copy(hotspot[get(_.tile_name)].ath, hotspot[get(_.tile_name)].my_ath);
 					copy(hotspot[get(_.tile_name)].oy, hotspot[get(_.tile_name)].my_oy);
+
+					inc(_.k);
 				);
 			);
 		);
@@ -460,13 +474,21 @@
 					set(_.rows, 1);
 					set(_.last_row_cols, 0);
 				,
-					set(_.cols, 3);
-					calc(_.rows, _.last_page / _.cols);
-					Math.ceil(_.rows);
-					mod(_.last_row_cols, _.last_page, _.cols);
+					if (_.last_page == 4,
+						set(_.cols, 2);
+						set(_.rows, 2);
+						set(_.last_row_cols, 0);
+					,
+						set(_.cols, 3);
+						calc(_.rows, _.last_page / _.cols);
+						Math.ceil(_.rows);
+						mod(_.last_row_cols, _.last_page, _.cols);
+					);					
 				);
 			);
 		);
+
+		set(_.k, 0);
 
 		for (set(_.i, 0), _.i LT _.rows, inc(_.i),
 
@@ -478,8 +500,9 @@
 
 			for (set(_.j, 0), _.j LT _.cols, inc(_.j),
 
-				calc(_.k, (_.current_page - 1) * 9 + _.i * 3 + _.j);
-				txtadd(hotspot_list[get(_.k)].name, 'tile_', get(_.k));				
+				calc(_.current_tile_index, (_.current_page - 1) * 9 + _.k);
+				txtadd(hotspot_list[get(_.k)].name, 'tile_', get(_.current_tile_index));	
+				inc(_.k);
 			);
 		);
 
@@ -612,7 +635,7 @@
 			hotspot_list.removearrayitem(get(_.j));
 
 			callwith(hotspot[get(_.hs_name)], hotspot[get(_.hs_name)].show());
-			delayedcall(0.02, show_hotspot_list_recurrent(get(_.j)));
+			delayedcall(0, show_hotspot_list_recurrent(get(_.j)));
 		);
 
 	</action>
