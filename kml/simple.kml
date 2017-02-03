@@ -36,4 +36,7 @@
 	<!-- Mobile & desktop hotspots -->
 	<include url="hotspot.kml" />
 
+	<!-- Pano thumbs ribbon, instagram style -->
+	<include url="catalog.kml" />
+	
 </krpano>

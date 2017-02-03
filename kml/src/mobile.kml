@@ -4,7 +4,7 @@
 
 <krpano devices="mobile">
 
-	<layer name="go_VR"
+	<layer name="open_catalog"
 		url="../img/tiles-mobile.png"
 		keep="true"
 
@@ -13,6 +13,8 @@
 		y_shown="24"
 
 		ondown="
+			set(layer[ring].parent, open_catalog);
+			set(layer[ring].y, -9);
 			callwith(layer[ring], layer[ring].show());
 		"
 		onup="
@@ -20,7 +22,7 @@
 		"
 
 		onclick="
-			
+			show_catalog();
 		" 
 	/>
 

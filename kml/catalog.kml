@@ -1,7 +1,6 @@
 <krpano>
 	
 	<_
-	//private
 		nh="0"
 		active_ithumb=""
 		thumb_caption=""
@@ -26,7 +25,6 @@
 		tween_duration="0.5"
 		toverflow="0"
 
-	// private
 		state="closed"
 		
 	/>
@@ -352,7 +350,6 @@
 
 	<action name="resize_catalog">
 
-		// вычисляем отступы
 		calc(catalog.padding, catalog.controls_width / catalog.column_amount);
 		if (device.mobile, 
 			mul(catalog.padding, 2);
@@ -381,8 +378,6 @@
 			);
 		);
 
-		// эта хрень нужна, чтобы контейнер всегда оставался далеко внизу, а то выглядывает при ресайзе.
-		// если нужно будет показать, его подвинет на начальную позицию в функции showmap
 		if (catalog.state == 'closed',
 			calc(layer[catalog_scroll_layer].y, -9999);
 		);
@@ -390,7 +385,6 @@
 		calc(layer[catalog_container].width, layer[catalog_scroll_window].width);
 		calc(layer[catalog_container].height, layer[catalog_scroll_window].height - layer[catalog_container].y);
 
-		// определяем новую ВЫСОТУ слоя
 		callwith(layer[thumbs_croparea], resize);
 
 		thumbs_onresize();
@@ -425,7 +419,6 @@
 				delayedcall(0, %1);
 			);
 
-			// убираем кнопку если мобилка
 			if (device.mobile,
 				tween(layer[open_catalog].y, calc(stageheight + 24), get(_.tween_duration), default);
 				tween(layer[open_catalog].alpha, 0, get(_.tween_duration), default);
@@ -443,7 +436,6 @@
 				delayedcall(0, %1);
 			);
 
-			// возвращаем кнопку если мобилка
 			if (device.mobile,
 				tween(layer[open_catalog].y, get(layer[open_catalog].y_shown), 0.5, default);
 				tween(layer[open_catalog].alpha, 1, 0.5, default);
@@ -522,9 +514,6 @@
 	-->
 	<action name="thumbs_onresize">
 
-		// расчёт параметров каталога				
-		// количество колонок с эскизами
-		// вычитаем запас, так как наверняка знаем, что нужен будет запас на пустое место
 		if ((device.tablet OR device.desktop),
 			if (layer[thumbs_croparea].width LT 552,
 				set(_.thumbs_columns, 1);
@@ -532,7 +521,6 @@
 				set(_.thumbs_columns, 2);
 			);
 		,
-			// если мобилка
 			if(stageheight GT stagewidth, 
 				set(_.thumbs_columns, 1);
 			,
@@ -541,14 +529,10 @@
 						
 		);
 
-		// определяем новую ВЫСОТУ слоя
 		callwith(layer[thumbs_croparea], resize);
 
-		// Отстуты в сетке заданы в ithumbs.padding
-		// Нужно рассчитать ширину эскизов в зависимости от
 		if (layer[thumbs_croparea].width GT catalog.controls_width,
 
-			// если на мобилке вдруг перешли в горизонтальный режим...
 			if (stagewidth GT stageheight,
 				calc(catalog.thumbsheight, (layer[thumbs_croparea].height - 2 * catalog.padding) / 3);
 				calc(catalog.thumbswidth, catalog.thumbsheight * 3 / 2);
@@ -568,7 +552,6 @@
 					);
 				);
 			,
-				// а если не на мобилке, то это десктопное окно.
 				set(catalog.thumbswidth, 324);
 				set(catalog.thumbsheight, 208);
 			);
@@ -582,7 +565,6 @@
 
 		if (device.mobile,
 			if(device.ios,
-				// если это iphone 6 и новее в вертикальном режиме
 				if((stagewidth GE 750) AND (stageheight GT stagewidth),
 					mul(catalog.thumbswidth, 2);
 					mul(catalog.thumbsheight, 2);
@@ -590,13 +572,11 @@
 			);
 		);
 
-		// устанавливаем размер рамки
 		copy(layer[thumbs_thumbborder].width, catalog.thumbswidth);
 		copy(layer[thumbs_thumbborder].height, catalog.thumbsheight);
 
 		set(layer[thumbs_scrollindicator].x, calc(layer[thumbs_croparea].width - catalog.padding/2));
 
-		// рассчитываем размеры области скроллинга
 		copy(layer[thumbs_scrollarea].width, layer[thumbs_croparea].width);
 
 		calc(_.row, scene.count / _.thumbs_columns);
@@ -621,17 +601,12 @@
 	-->
 	<action name="set_thumb_coords">
 
-		// Устанавливаем ширину слоя
 		copy(layer[%2].width, catalog.thumbswidth);
 		copy(layer[%2].height, catalog.thumbsheight);
 
-		// расчёт координат эскиза
 		calc(_.row, %1 / _.thumbs_columns);
 		math.floor(_.row);
 
-		// если у нас мобилка в горизотнальном положениее, то колоное две,
-		// но эскизы маленькие и нужно делать больший горизонтальный отступ,
-		// который тут и вычисляется
 		if (device.mobile,
 			if (stagewidth GT stageheight,
 				calc(_.grid_offset, (layer[thumbs_croparea].width - catalog.thumbswidth * 2 - catalog.padding) / 2);

@@ -298,9 +298,9 @@
 			copy(_.hlookat, view.hlookat);
 
 			if (_.state == 'closed',
-				update_pagination();
 				show_background();
 				show_slider_marks();
+				update_pagination();
 
 				get_current_tile_list();
 				show_hotspot_list_recurrent(hotspot_list.count);
@@ -639,7 +639,7 @@
 		);
 
 	</action>
-	
+
 	<action name="vr_menu_following" type="Javascript" devices="html5"><![CDATA[
 
 		var hs1 = krpano.get("hotspot[reload]");

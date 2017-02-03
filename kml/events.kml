@@ -2,6 +2,8 @@
 		
 	<_
 		run_on_startup="true"
+		old_stagewidth="0"
+		old_stageheight="0"
 	/>	
 
 	<events name="global_events" keep="true"
@@ -9,7 +11,11 @@
 			add_hotspot_thumbs();
 			add_tiles();
 			add_slider_marks();
+
 			set(webvr.mobilevr_lens_fov, 120);
+
+			copy(_.old_stagewidth, stagewidth);
+			copy(_.old_stageheight, stageheight);
 
 			if (_.auto_vr,
 				delayedcall(1, webvr.enterVR());
@@ -24,11 +30,25 @@
 						set(scene[get(_.i)].visited, true);
 					);
 				);
+
+				init_catalog();
+			);
+		"
+		onviewchanged="
+			if(_.hs_thumb_container_visible,
+				update_hs_thumb_pos();
+			);
+
+			if ((_.old_stagewidth != stagewidth) OR (_.old_stageheight != stageheight),
+
+				copy(_.old_stagewidth, stagewidth);
+				copy(_.old_stageheight, stageheight);
+				resize_catalog();
 			);
 		"
 	/>
 
-	<events name="vr_events" keep="true" if="webvr.isenabled"
+	<events name="vr_events" keep="true"
 		
 		onnewscene="
 			copy(hotspot[tiles].ath, view.hlookat);
@@ -44,12 +64,7 @@
 			if (_.hs_thumb_visible,
 				hide_hs_thumb(false);
 			);
-		"
-		onviewchanged="
-			if(_.hs_thumb_container_visible,
-				update_hs_thumb_pos();
-			);
-		"		
+		"	
 	/>
 
 	<events name="desktop_events" devices="desktop" keep="true"

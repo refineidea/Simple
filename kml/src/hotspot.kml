@@ -283,39 +283,6 @@
 		
 	</action>
 
-	<action name="hide_hs_thumb">
-
-		set(_.hs_thumb_visible, false);
-
-		ifnot(%1 == false,
-			ifnot (scene[%1].visited,
-				txtadd(	layer[hotspot_thumb_caption].html, 
-						get(layer[hotspot_thumb_caption].html), 
-						' [b]✓[/b]'
-				);
-			);
-
-			delayedcall(0.4,
-				tween(layer[hs_thumb_container].alpha, 0, 0.5, default,
-					set(layer[hs_thumb_container].visible, false);
-					set(_.hs_thumb_container_visible, false);
-					set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
-				);
-			);
-		,
-			tween(layer[hs_thumb_container].alpha, 0, 0.1, default,
-				set(layer[hs_thumb_container].visible, false);
-				set(layer[hs_thumb_container].alpha, 0);
-				set(_.hs_thumb_container_visible, false);
-				set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
-
-				if (device.mobile,
-					moveto(get(hotspot[get(layer[hs_thumb_container].parent_hs)].ath), get(view.vlookat), tween(default, 1));
-				);
-			);
-		);
-	</action>
-
 	<data name="default_hotspot_style"><![CDATA[
 		text-align:center; 
 		color:#d8d4d0;
