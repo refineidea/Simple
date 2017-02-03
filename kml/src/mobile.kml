@@ -5,7 +5,7 @@
 <krpano devices="mobile">
 
 	<layer name="go_VR"
-		url="../img/glasses.png"
+		url="../img/tiles-mobile.png"
 		keep="true"
 
 		align="bottomcenter"
