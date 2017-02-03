@@ -1,4 +1,57 @@
 <krpano>
+		
+	<_
+		run_on_startup="true"
+	/>	
+
+	<events name="global_events" keep="true"
+		onxmlcomplete="
+			add_hotspot_thumbs();
+			add_tiles();
+			add_slider_marks();
+			set(webvr.mobilevr_lens_fov, 120);
+
+			if (_.auto_vr,
+				delayedcall(1, webvr.enterVR());
+			);
+
+			if (_.run_on_startup,
+				set(_.run_on_startup, false);
+				for (set(_.i, 0), _.i LT scene.count, inc(_.i),
+					if (_.i !== xml.scene,
+						set(scene[get(_.i)].visited, false);
+					,
+						set(scene[get(_.i)].visited, true);
+					);
+				);
+			);
+		"
+	/>
+
+	<events name="vr_events" keep="true" if="webvr.isenabled"
+		
+		onnewscene="
+			copy(hotspot[tiles].ath, view.hlookat);
+		"
+
+		onviewchange="
+			vr_menu_following();
+		"
+	/>
+
+	<events name="mobile_events" keep="true"
+		onclick="
+			if (_.hs_thumb_visible,
+				hide_hs_thumb(false);
+			);
+		"
+		onviewchanged="
+			if(_.hs_thumb_container_visible,
+				update_hs_thumb_pos();
+			);
+		"		
+	/>
+
 	<events name="desktop_events" devices="desktop" keep="true"
 		onkeydown="
 			
@@ -24,4 +77,5 @@
 			);
 		"
 	/>
+
 </krpano>

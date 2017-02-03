@@ -17,11 +17,11 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="↖ Кухня" ath="-71.722" atv="0" linkedscene="scene_p937" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="Гостиная ↗" ath="-54.976" atv="8" linkedscene="scene_p939" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Спальня ↗" ath="89.311" atv="-10" linkedscene="scene_p940" />
-		<hotspot name="spot4" style="skin_hotspotstyle_signature" html="↖ Детская (красная)" ath="89.640" atv="-2.33" linkedscene="scene_p941" />
-		<hotspot name="spot5"  style="skin_hotspotstyle_signature" html="↙ Детская (розовая)" ath="89.858" atv="6" linkedscene="scene_p942" />
+		<hotspot name="spot1" style="caption" html="↖ Кухня" ath="-71.722" atv="0" linkedscene="scene_p937" />
+		<hotspot name="spot2" style="caption" html="Гостиная ↗" ath="-54.976" atv="8" linkedscene="scene_p939" />
+		<hotspot name="spot3" style="caption" html="Спальня ↗" ath="89.311" atv="-10" linkedscene="scene_p940" />
+		<hotspot name="spot4" style="caption" html="↖ Детская (красная)" ath="89.640" atv="-2.33" linkedscene="scene_p942" />
+		<hotspot name="spot5"  style="caption" html="↙ Детская (розовая)" ath="89.858" atv="6" linkedscene="scene_p941" />
 
 	</scene>
 
@@ -36,8 +36,8 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Прихожая ↗" ath="50" atv="3.244" linkedscene="scene_p943" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="↑ Гостиная" ath="-15" atv="3.174" linkedscene="scene_p939" />
+		<hotspot name="spot1" style="caption" html="Прихожая ↗" ath="50" atv="3.244" linkedscene="scene_p943" />
+		<hotspot name="spot2" style="caption" html="↑ Гостиная" ath="-15" atv="3.174" linkedscene="scene_p939" />
 
 	</scene>
 
@@ -52,8 +52,8 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="↑ Кухня" ath="-9.925" atv="2.071" linkedscene="scene_p937" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Прихожая" ath="-50.115" atv="1.461" linkedscene="scene_p943" />
+		<hotspot name="spot1" style="caption" html="↑ Кухня" ath="-9.925" atv="2.071" linkedscene="scene_p937" />
+		<hotspot name="spot2" style="caption" html="← Прихожая" ath="-50.115" atv="1.461" linkedscene="scene_p943" />
 
 	</scene>
 
@@ -68,9 +68,9 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Прихожая ↗" ath="-68" atv="-5" linkedscene="scene_p943" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="Детская (красная) ↘" ath="-68" atv="3" linkedscene="scene_p942" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Детская (розовая) →" ath="-68" atv="11" linkedscene="scene_p941" />
+		<hotspot name="spot1" style="caption" html="Прихожая ↗" ath="-68" atv="-5" linkedscene="scene_p943" />
+		<hotspot name="spot2" style="caption" html="Детская (красная) ↘" ath="-68" atv="3" linkedscene="scene_p942" />
+		<hotspot name="spot3" style="caption" html="Детская (розовая) →" ath="-68" atv="11" linkedscene="scene_p941" />
 
 	</scene>
 
@@ -85,9 +85,9 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="← Детская (красная)" ath="-14.598" atv="8" linkedscene="scene_p942" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="↑ Спальня" ath="5.091" atv="0" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="Прихожая →" ath="-3.433" atv="16" linkedscene="scene_p943" />
+		<hotspot name="spot1" style="caption" html="← Детская (красная)" ath="-14.598" atv="8" linkedscene="scene_p942" />
+		<hotspot name="spot2" style="caption" html="↑ Спальня" ath="5.091" atv="0" linkedscene="scene_p940" />
+		<hotspot name="spot3" style="caption" html="Прихожая →" ath="-3.433" atv="16" linkedscene="scene_p943" />
 
 	</scene>
 
@@ -102,349 +102,9 @@
 		</image>
 
 		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_2" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_3" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_4" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_5" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_6" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_7" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_8" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_9" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_21" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_31" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_41" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_51" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_61" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_71" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_81" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_91" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_92" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_93" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_94" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
-
-	</scene>
-
-	<scene name="scene_p942_95" title="Детская (красная)" onstart="" thumburl="panos/p942.tiles/thumb.jpg" lat="" lng="" heading="">
-
-		<view hlookat="64.956" vlookat="22.976" fovtype="MFOV" fov="110" maxpixelzoom="0.71" fovmin="70" fovmax="140" limitview="auto" />
-
-		<preview url="panos/p942.tiles/preview.jpg" />
-
-		<image >
-			<cube url="panos/p942.tiles/vr/pano_%s.jpg" />
-		</image>
-
-		<!-- place your scene hotspots here -->
-		<hotspot name="spot1" style="skin_hotspotstyle_signature" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
-		<hotspot name="spot2" style="skin_hotspotstyle_signature" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
-		<hotspot name="spot3" style="skin_hotspotstyle_signature" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
+		<hotspot name="spot1" style="caption" html="Детская (розовая) ↗" ath="-88.303" atv="2" linkedscene="scene_p941" />
+		<hotspot name="spot2" style="caption" html="← Спальня" ath="-103.339" atv="10" linkedscene="scene_p940" />
+		<hotspot name="spot3" style="caption" html="↖ Прихожая" ath="-94.925" atv="18" linkedscene="scene_p943" />
 
 	</scene>
 

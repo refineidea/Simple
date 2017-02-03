@@ -20,7 +20,7 @@
 		"
 
 		onclick="
-			webvr.enterVR();
+			
 		" 
 	/>
 

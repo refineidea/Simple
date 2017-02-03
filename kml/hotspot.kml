@@ -1,0 +1,517 @@
+<!-- 
+	Hotspot template
+-->
+
+<krpano>
+
+	<_
+		thumbwidth="236" 
+		thumbheight="156"
+		thumbwidth.mobile="359" 
+		thumbheight.mobile="239"
+		thumbscrop="0|0|240|160"
+
+
+		hs_thumb_visible="false"
+		scn=""
+		hs_active_thumb_name=""
+		scene_index="0"
+		hs_thumb_caption=""
+		thumb_caption=""
+		h_ath="0"
+		h_atv="0"
+		tx="0"
+		ty="0"
+		to_h="0"
+		hs_width="0"
+		hs_thumb_container_visible="false"
+		sw2="0"
+		sh2="0"
+		center_x="0"
+		center_y="0"
+		center_x2="0"
+		atx="0"
+	/>
+
+	<style name="hotspot_thumb"
+		keep="true"
+		parent="hs_thumb_container"
+		align="left"
+		x.mobile="9"
+		x.desktop="10"
+		x.tablet="10"
+		y="0"
+		alpha="0"
+		width="calc:_.thumbwidth"
+		height="calc:_.thumbheight"
+		
+		zorder="4"
+
+		onclick="
+			callwith(hotspot[get(layer[hs_thumb_container].parent_hs)], desktop_handler);
+		"
+	/>
+		
+	<style name="caption"
+		url="%SWFPATH%/plugins/textfield.swf"
+
+		css="data:default_hotspot_style"
+		css.mac="data:default_hotspot_style_macOS"
+		css.mobile="data:mobile_hotspot_style"
+		css.tablet="data:tablet_hotspot_style"
+
+		init_ath="0"
+		init_atv="0"
+		state="in"
+
+		vcenter="true"
+		autowidth="true"
+
+		backgroundcolor="0x000000" backgroundalpha="0" roundedge="0" border="false"
+
+		scene_keepview="false"
+
+		onover.desktop="
+			show_hs_thumb(get(name));
+
+
+			if (device.mac,
+				copy(css, data[default_overed_hotspot_style_macOS].content);
+			,
+				copy(css, data[default_overed_hotspot_style].content);
+			);
+		"
+
+		onclick.touch="
+			show_hs_thumb(get(name));
+		"
+
+		onhover.desktop="
+			set(layer[bottom_bar_title].html, get(scene[get(linkedscene)].title));
+			
+		"
+
+		onout.desktop="
+			delayedcall(0.5,
+				set(layer[bottom_bar_title].html, get(scene[get(xml.scene)].title));
+			);
+
+			hide_hs_thumb(false);
+
+			if (device.mac,
+				copy(css, data[default_hotspot_style_macOS].content);
+			,
+				copy(css, data[default_hotspot_style].content);
+			);	
+		"
+
+		onclick.desktop="
+			desktop_handler();
+		"
+		desktop_handler="
+			if(linkedscene,
+				hide_hs_thumb(get(linkedscene));
+				set(scene[get(linkedscene)].visited, true);
+
+				tween(alpha, 0, 0.5, default,
+
+					ifnot(scene_keepview,
+						delayedcall(0.3, loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear)));
+					,
+						delayedcall(0.3, loadscene(get(linkedscene), null, KEEPVIEW, OPENBLEND(1, 0.0, 1, 0, linear)));
+					);
+				);
+			);
+		"
+	/>
+
+	<action name="show_hs_thumb">
+
+		set(_.hs_thumb_visible, true);
+		
+		set(layer[hs_thumb_container].parent_hs, %1);
+		
+		copy(_.scn, hotspot[%1].linkedscene);
+		
+		copy(_.hs_active_thumb_name, layer[hs_thumb_container].active_thumb);
+		set(layer[get(_.hs_active_thumb_name)].alpha, 0);
+		
+		set(_.scene_index, get(scene[get(_.scn)].index));
+
+		set(layer[hotspot_thumb_caption].html, get(scene[get(_.scene_index)].title));
+		if (scene[get(_.scene_index)].visited,
+			txtadd(layer[hotspot_thumb_caption].html, get(layer[hotspot_thumb_caption].html), ' [b]✓[/b]');
+		);
+
+		txtadd(_.hs_thumb_caption, 'hotspot_thumb', get(_.scene_index));
+		copy(layer[hs_thumb_container].active_thumb, _.hs_thumb_caption);
+		set(layer[get(_.hs_thumb_caption)].alpha, 1);
+		set(layer[get(_.hs_thumb_caption)].visible, true);
+		set(layer[get(_.hs_thumb_caption)].caller_type, 'hotspot');
+		set(layer[get(_.hs_thumb_caption)].caller, %1);
+		set(layer[hs_thumb_container].visible, true);
+
+		txtadd(_.thumb_caption, 'skin_thumb_caption', get(_.scene_index));
+				
+		copy(_.h_ath, hotspot[%1].ath);
+		copy(_.h_atv, hotspot[%1].atv);
+
+		spheretoscreen(_.h_ath, _.h_atv, _.tx, _.ty);
+
+		if (device.mobile,
+			calc(_.tx, _.tx + 0.7*hotspot[%1].width - 16);
+			calc(_.ty, _.ty - 124);
+		);
+
+		if (device.desktop,
+			calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+			calc(_.ty, _.ty - 78);
+		);
+
+		if (device.tablet,
+			calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+			calc(_.ty, _.ty - 84);
+		);
+
+		copy(layer[hs_thumb_container].x, _.tx);
+		copy(layer[hs_thumb_container].y, _.ty);
+		
+		set(_.hs_thumb_container_visible, true);
+		
+		tween(layer[hs_thumb_container].alpha, 1, 0.1, default,
+			if (device.mobile,
+
+				calc(_.sw2, stagewidth/2);
+				calc(_.sh2, stageheight/2);
+				screentosphere(_.sw2, _.sh2, _.center_x, _.center_y);
+
+				add(_.sw2, 100);
+				screentosphere(_.sw2, _.sh2, _.center_x2, _.center_y);
+				screentosphere(_.tx, _.ty, look_to_x, look_to_y);
+
+				calc(_.to_h, look_to_x + (_.center_x2 - _.center_x) / 100 * layer[hs_thumb_container].width / 2 * 0.76);
+				moveto(get(_.to_h), get(view.vlookat), tween(default, 1));
+			);
+		);
+	</action>
+
+	<action name="hide_hs_thumb">
+
+		set(_.hs_thumb_visible, false);
+
+		if (%1 == true,
+			tween(layer[hs_thumb_container].alpha, 0, 0.1, default,
+				set(layer[hs_thumb_container].visible, false);
+				set(_.hs_thumb_container_visible, false);
+				set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
+			);
+		,
+			if (%1 == false,
+				tween(layer[hs_thumb_container].alpha, 0, 0.1, default,
+					set(layer[hs_thumb_container].visible, false);
+					set(_.hs_thumb_container_visible, false);
+					set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
+
+					if (device.mobile,
+						moveto(get(hotspot[get(layer[hs_thumb_container].parent_hs)].ath), get(view.vlookat), tween(default, 1));
+					);
+				);
+			,
+				ifnot (scene[%1].visited,
+					txtadd(	layer[hotspot_thumb_caption].html, 
+							get(layer[hotspot_thumb_caption].html), 
+							' [b]✓[/b]'
+					);
+				);
+				delayedcall(0.4,
+					tween(layer[hs_thumb_container].alpha, 0, 0.5, default,
+						set(layer[hs_thumb_container].visible, false);
+						set(_.hs_thumb_container_visible, false);
+						set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
+					);
+				);
+			);
+		);
+	</action>
+
+	<action name="add_hotspot_thumbs">
+
+		for(set(_.i, 0), _.i LT scene.count, inc(_.i),
+		txtadd(_.hs_thumb_caption, 'hotspot_thumb', get(_.i));
+			addlayer(get(_.hs_thumb_caption));
+			
+			layer[get(_.hs_thumb_caption)].loadstyle('hotspot_thumb');
+
+			copy(layer[get(_.hs_thumb_caption)].url, scene[get(_.i)].thumburl);
+		);
+
+	</action>
+
+	<action name="update_hs_thumb_pos">
+		copy(_.h_ath, hotspot[get(layer[hs_thumb_container].parent_hs)].ath);
+		copy(_.h_atv, hotspot[get(layer[hs_thumb_container].parent_hs)].atv);
+		spheretoscreen(_.h_ath, _.h_atv, _.tx, _.ty);
+
+		Math.abs(_.atx, _.tx);
+
+		if (_.atx LT 5000,
+			if (device.mobile,
+				calc(_.tx, _.tx + 0.7*hotspot[%1].width - 16);
+				calc(_.ty, _.ty - 124);
+			);
+
+			if (device.desktop,
+				calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+				calc(_.ty, _.ty - 78);
+			);
+
+			if (device.tablet,
+				calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+				calc(_.ty, _.ty - 84);
+			);
+
+			copy(layer[hs_thumb_container].x, _.tx);
+			copy(layer[hs_thumb_container].y, _.ty);
+		,
+			hide_hs_thumb(true);
+		);		
+		
+	</action>
+
+	<action name="hide_hs_thumb">
+
+		set(_.hs_thumb_visible, false);
+
+		ifnot(%1 == false,
+			ifnot (scene[%1].visited,
+				txtadd(	layer[hotspot_thumb_caption].html, 
+						get(layer[hotspot_thumb_caption].html), 
+						' [b]✓[/b]'
+				);
+			);
+
+			delayedcall(0.4,
+				tween(layer[hs_thumb_container].alpha, 0, 0.5, default,
+					set(layer[hs_thumb_container].visible, false);
+					set(_.hs_thumb_container_visible, false);
+					set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
+				);
+			);
+		,
+			tween(layer[hs_thumb_container].alpha, 0, 0.1, default,
+				set(layer[hs_thumb_container].visible, false);
+				set(layer[hs_thumb_container].alpha, 0);
+				set(_.hs_thumb_container_visible, false);
+				set(layer[get(layer[hs_thumb_container].active_thumb)].visible, false);
+
+				if (device.mobile,
+					moveto(get(hotspot[get(layer[hs_thumb_container].parent_hs)].ath), get(view.vlookat), tween(default, 1));
+				);
+			);
+		);
+	</action>
+
+	<data name="default_hotspot_style"><![CDATA[
+		text-align:center; 
+		color:#d8d4d0;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:16px; 
+		padding: 3px 10px 5px 10px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="default_overed_hotspot_style"><![CDATA[
+		text-align:center; 
+		color:#efebe8;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:16px; 
+		padding: 3px 10px 5px 10px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="default_hotspot_style_macOS"><![CDATA[
+		text-align:center; 
+		color:#d8d4d0;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:16px; 
+		padding: 8px 10px 5px 10px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="default_overed_hotspot_style_macOS"><![CDATA[
+		text-align:center; 
+		color:#efebe8;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:16px; 
+		padding: 8px 10px 5px 10px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="mobile_hotspot_style"><![CDATA[
+		text-align:center; 
+		color:#d8d4d0;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:27px;
+		padding: 10px 16px 8px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="tablet_hotspot_style"><![CDATA[
+		text-align:center; 
+		color:#d8d4d0;
+		background: rgba(45, 44, 42, 0.75);
+		border-radius: 16px;
+		border: 3px solid rgba(0, 0, 0, 0.05); 
+		font-family:OpenSans, sans-serif; 
+		font-weight:regular; 
+		font-size:16px; 
+		padding: 7px 10px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	]]>
+	</data>
+
+	<data name="default_thumb_caption_style"><![CDATA[
+		text-align:left; 
+		color:#eeeeee; 
+		font-family:OpenSans, sans-serif; 
+		font-size:16px; text-indent:14;
+		padding: 6px 8px 6px;
+		text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+	]]>
+	</data>
+
+	<data name="mobile_thumb_caption_style"><![CDATA[
+		text-align:left; 
+		color:#dddddd; 
+		text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+		font-family:OpenSans, sans-serif; 
+		font-size:26px; 
+		text-indent:14;
+		padding: 6px 8px 6px;
+	]]>
+	</data>
+
+	<style name="dragging_hotspot"
+		init_ath="0"
+		init_atv="0"
+
+		ondown="
+			screentosphere(mouse.x, mouse.y, mouse_init_ath, mouse_init_atv);
+			copy(init_ath, ath);
+			copy(init_atv, atv);
+
+			dragging();
+		"
+
+		onup="
+			trace(	' ath=&quot;', get(ath), '&quot;',
+					' atv=&quot;', get(atv), '&quot;'
+				);
+		"
+
+		dragging="
+			if(pressed,	
+
+				screentosphere(mouse.x, mouse.y, mouse_ath, mouse_atv);
+
+				calc(new_ath, init_ath + mouse_ath - mouse_init_ath);
+				calc(new_atv, init_atv + mouse_atv - mouse_init_atv);
+
+				mul(temp, new_ath, 20);
+				math.round(temp);
+				div(ath, temp, 20);
+
+				mul(temp, new_atv, 20);
+				math.round(temp);
+				div(atv, temp, 20);
+
+				delayedcall(0, dragging()); 
+			);
+		"
+	/>
+
+	<layer name="hs_thumb_container"
+		type="container"
+		keep="true"
+		align="lefttop"
+
+		bgcolor="0x2d2d2d"
+		bgalpha="0"
+		width="calc:_.thumbwidth"
+		height="calc:_.thumbheight"
+		
+		maskchildren="false"
+		visible="false"
+		enabled="true"
+		alpha="0"
+		x="0" y="0"
+		active_thumb=""
+		zorder="3"
+	>
+		<layer
+			name="hotspot_thumbborder"
+			url="../img/hotspot_thumbborder.png"
+			keep="true"
+			scale="0.5"
+			align="center"
+			x="5"
+			x.mobile="2"
+			y="0"
+			y.mobile="-1"
+			zorder="3"
+			onloaded="
+				if(device.mobile,
+					set(scale, '0.76');
+				);
+			"
+		/>
+		
+		<layer
+			name="hotspot_thumb_caption"
+			keep="true"
+			url="%SWFPATH%/plugins/textfield.swf"
+			align="leftbottom"
+			autoheight="true"
+			background="false"
+			backgroundcolor="0x2d2d2d"
+			backgroundalpha="0.5"
+			border="false"
+			x="10" y="0"
+			width="238"
+			css="data:default_thumb_caption_style"
+			zorder="5"
+			onloaded="
+				if(device.mobile,
+					copy(css, data[mobile_thumb_caption_style].content);
+					set(width, '342');
+				);
+			"
+		/>
+	</layer>
+
+</krpano>

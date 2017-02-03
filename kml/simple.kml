@@ -33,4 +33,7 @@
 	<!-- VR user interface -->
 	<include url="vr.kml" />
 
+	<!-- Mobile & desktop hotspots -->
+	<include url="hotspot.kml" />
+
 </krpano>
