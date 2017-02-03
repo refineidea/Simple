@@ -256,17 +256,17 @@
 
 		if (_.atx LT 5000,
 			if (device.mobile,
-				calc(_.tx, _.tx + 0.7*hotspot[%1].width - 16);
+				calc(_.tx, _.tx + 0.7*hotspot[get(layer[hs_thumb_container].parent_hs)].width - 16);
 				calc(_.ty, _.ty - 124);
 			);
 
 			if (device.desktop,
-				calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+				calc(_.tx, _.tx + 0.5*hotspot[get(layer[hs_thumb_container].parent_hs)].width + 5);
 				calc(_.ty, _.ty - 78);
 			);
 
 			if (device.tablet,
-				calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
+				calc(_.tx, _.tx + 0.5*hotspot[get(layer[hs_thumb_container].parent_hs)].width + 5);
 				calc(_.ty, _.ty - 84);
 			);
 
