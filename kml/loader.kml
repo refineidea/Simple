@@ -1,0 +1,100 @@
+<krpano>
+		
+	<_
+		isloading="true"
+		old_pv="0"
+		pv="0"
+		percent_limit="0"
+	/>
+
+	<layer
+		name="custom_loadingpercent_text"
+		keep="true"
+		url="%SWFPATH%/plugins/textfield.swf"
+		align="center"
+		background="false"
+
+		visible="true"
+		alpha="0.01"
+		vr="true"
+
+		enabled="false"
+		handcursor="true" capture="false" 
+		autoheight="true"
+		css="
+			text-align:center; 
+			color:#ffffff; 
+			opacity: 0.75; 
+			font-family:Lato, sans-serif; 
+			font-weight: 300;
+			font-size: 27px;
+		"
+		html="TEST"
+		onloaded="
+			if(device.mobile,
+				set(css, 'text-align:center; color:#ffffff; opacity: 0.75; font-family:OpenSans-Light, sans-serif; font-size:48px;');
+			);
+			delayedcall(1, 
+				set(html, '0%');
+				set(html, '10%');
+				set(html, '0%');
+			);
+		"
+
+		hide="
+			tween(alpha, 0, , ,
+				set(visible, false);
+			);
+		"
+		zorder="0"
+	/>
+
+	<events name="loader_events" keep="true"
+		onloadcomplete="
+			loadingpercent_stoploading();
+		"
+	/>
+
+	<action name="loadingpercent_startloading">
+		set(layer[custom_loadingpercent_text].zorder, 10);
+		tween(layer[custom_loadingpercent_text].alpha, 1);
+
+		set(_.isloading, true);
+		set(_.old_pv, 0);
+		set(_.i, 0);
+		
+		asyncloop(_.isloading,
+			mul(_.pv, progress.progress, 100);
+			roundval(_.pv, 0);
+			if(_.pv GT _.old_pv,
+				if(_.pv GT 1,
+					txtadd(layer[custom_loadingpercent_text].html, get(_.pv), '%');
+					set(_.old_pv, get(_.pv));
+				);
+			);
+		);
+	</action>
+
+	<action name="loadingpercent_stoploading">
+		set(loadingpercent_isloading, false);
+	
+		set(layer[custom_loadingpercent_text].html, '100%');
+		delayedcall(0.5,
+			loading_doneactions();
+		);
+	</action>
+
+	<action name="loading_doneactions">
+
+		callwith(layer[custom_loadingpercent_text], hide);
+		delayedcall(0.5, removelayer(custom_loadingpercent_text));
+		
+		delayedcall(0.35,
+			callwith(layer[poster], hide);
+			tween(layer[ring].alpha, 0, 0.5, easeInOutCubic, 
+				set(layer[ring].visible, false);
+			);
+		);
+	</action>
+
+</krpano>

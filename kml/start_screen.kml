@@ -8,6 +8,7 @@
 		height="600"
 		x="0" y="0"
 		alpha="1"
+		vr="true"
 		onloaded="
 			resize();
 
@@ -27,11 +28,8 @@
 			);			
 		"
 		hide="
-			delayedcall(0.1,
-				tween(alpha, 0, , ,
-					set(visible, false);
-				);
-			);
+			tween(alpha, 0, 1.5, easeInOutCubic);
+			
 		"
 		zorder="10"
 	/>
@@ -47,10 +45,9 @@
 
 		scale.desktop="0.5"
 		scale.tablet="0.5"
-		ring_y.mobile="-34"
-		ring_y.tablet="-17"
 
 		zorder="11"
+		vr="true"
 
 		ondown.touch="
 			set(layer[ring].parent, play_tour);
@@ -58,14 +55,24 @@
 			callwith(layer[ring], layer[ring].show());
 		"
 		onup.touch="
-			callwith(layer[ring], layer[ring].hide());
+			delayedcall(hide_ring, 0.1,
+				callwith(layer[ring], layer[ring].hide());
+			);
 		"
-
 		onclick="
+			stopdelayedcall(hide_ring);
+			set(layer[ring].parent, '');
+			copy(layer[ring].x, x);
+			copy(layer[ring].y, 0);
 			tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
 				set(layer[play_tour].visible, false);
 				set(layer[go_VR_already].visible, false);
-				loadscene(0, null, MERGE, BLEND(0.5));
+			);
+			delayedcall(0.15,
+				tween(layer[ring].x, 0, 0.5, ,
+					loadingpercent_startloading();
+					loadscene(0, null, MERGE, BLEND(0.5));
+				);
 			);
 		"
 	/>
@@ -82,22 +89,36 @@
 		y.desktop="0" y.tablet="0" y.mobile="0"
 
 		zorder="11"
+		vr="true"
 
 		ondown.touch="
 			set(layer[ring].parent, go_VR_already);
-			set(layer[ring].y, -34);
 			callwith(layer[ring], layer[ring].show());
 		"
 		onup.touch="
-			callwith(layer[ring], layer[ring].hide());
+			delayedcall(hide_ring, 0.1,
+				callwith(layer[ring], layer[ring].hide());
+			);
 		"
 
 		onclick="
+			stopdelayedcall(hide_ring);
 			webvr.enterVR();
-			tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
-				set(layer[play_tour].visible, false);
-				set(layer[go_VR_already].visible, false);
-				loadscene(0, null, MERGE, BLEND(0.5));
+			delayedcall(1,
+				set(layer[ring].parent, '');
+				copy(layer[ring].x, x);
+				copy(layer[ring].y, 0);
+
+				tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
+					set(layer[play_tour].visible, false);
+					set(layer[go_VR_already].visible, false);
+				);
+				delayedcall(0.15,
+					tween(layer[ring].x, 0, 0.5, ,
+						loadingpercent_startloading();
+						loadscene(0, null, MERGE, BLEND(0.5));
+					);
+				);
 			);
 		"
 	/>

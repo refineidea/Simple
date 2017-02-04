@@ -209,7 +209,7 @@
 
 					ondown="
 						set(layer[ring].parent, toggle_curtain);
-						set(layer[ring].y, -65);
+						set(layer[ring].y, -6);
 						callwith(layer[ring], layer[ring].show());
 					"
 					onup="
@@ -246,7 +246,7 @@
 
 					ondown="
 						set(layer[ring].parent, go_VR);
-						set(layer[ring].y, -65);
+						set(layer[ring].y, -6);
 						callwith(layer[ring], layer[ring].show());
 					"
 					onup="

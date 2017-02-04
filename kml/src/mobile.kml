@@ -18,7 +18,7 @@
 
 		ondown="
 			set(layer[ring].parent, open_catalog);
-			set(layer[ring].y, -9);
+			set(layer[ring].y, -12);
 			callwith(layer[ring], layer[ring].show());
 		"
 		onup="
@@ -34,14 +34,18 @@
 		url="../img/ring.png"
 		keep="true"
 
-		align="bottomcenter"
+		align="center"
 		x="0" y="0"
+
+		vr="true"
 
 		visible="false"
 		alpha="0"
 
 		scale.mobile="1"
 		scale.tablet="0.5"
+
+		zorder="10"
 
 		enabled="false"
 		show="

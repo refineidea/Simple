@@ -27,7 +27,9 @@
 			if (_.run_on_startup,
 				set(_.run_on_startup, false);
 
+				// it's required for correct fon display later
 				set(layer[scene_title].html, 'TEST');
+				set(layer[custom_loadingpercent_text].html, '0%');
 
 				for (set(_.i, 0), _.i LT scene.count, inc(_.i),
 					if (_.i == scene[get(simple.startscene)].index,
@@ -55,9 +57,6 @@
 				callwith(layer[poster], resize);
 			);
 		"
-		onloadcomplete="
-			callwith(layer[poster], hide);
-		"
 	/>
 
 	<events name="vr_events" keep="true"
@@ -83,6 +82,19 @@
 		onclick="
 			if(catalog.state == 'opened',
 				show_catalog();
+			);
+		"
+		onresize="
+			delayedcall(0,
+				if (stagewidth LT 748,
+					copy(layer[bottom_control_bar].width, stagewidth);
+					set(layer[catalog_scroll_window].y, 60);
+					set(layer[bottom_control_bar].y, 0);
+				,
+					set(layer[bottom_control_bar].width, 720);
+					set(layer[catalog_scroll_window].y, 70);
+					set(layer[bottom_control_bar].y, 10);
+				);
 			);
 		"
 	/>

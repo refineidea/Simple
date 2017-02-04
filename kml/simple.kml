@@ -30,8 +30,16 @@
 	<!-- Showtext plugin -->
 	<include url="../plugins/showtext.xml" />
 
+		<plugin 
+	        alturl="%SWFPATH%/plugins/moretweentypes.js"
+	        preload="true"
+		/>
+
 	<!-- Start screen -->
 	<include url="start_screen.kml" />
+
+	<!-- Loading percent -->
+	<include url="loader.kml" />
 
 	<!-- Common events -->
 	<include url="events.kml" />
