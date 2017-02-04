@@ -1,0 +1,315 @@
+<krpano>
+	
+	<_
+		offset="0"
+		children_count="0"
+	/>
+
+	<layer 
+		name="bottom_control_bar" 
+		keep="true" 
+		type="container" 
+
+		visible="false"
+
+		bgcolor="0x1d1d1d" 
+		bgalpha="0.75" 
+
+		align="bottomcenter"
+
+		bgroundedge="8"
+		width="720" 
+		height="50" 
+		x="0" y="10" 
+		y_shown="50" 
+		y_hidden="-52" 
+		zorder="3"
+		devices="desktop|tablet"
+	>
+		<layer name="content_buttons_wrapper"
+			type="container"
+			bgalpha="0.0"
+			align="left"
+			x="0" y="0"
+			bgcolor="0xdddddd"
+			width="100%"
+			height="50"
+
+			fix_buttons="
+				set(_.offset, 9);				
+
+				copy(_.new_x, _.offset);
+
+				for(set(i, 0), i LT layer.count, inc(i),
+					if (layer[get(i)].parent == content_buttons_wrapper,
+
+						if (layer[get(i)].active,
+							inc(_.children_count);
+
+							if (layer[get(i)].fix_align == 'left',
+								calc(layer[get(i)].x, -14 + _.new_x + layer[get(i)].width);
+							,
+								if (layer[get(i)].fix_align == 'right',
+									calc(layer[get(i)].x, 7 - layer[get(i)].width + layer[bottom_control_bar].width);
+								,
+									copy(layer[get(i)].x, _.new_x);
+								);
+							);
+			
+							add(width, get(layer[get(i)].width));
+							add(_.new_x, get(layer[get(i)].width));
+
+							add(_.new_x, _.offset);
+						);
+					);
+				);
+
+				calc(width, width + (_.children_count - 1) * _.offset);
+			"
+		>
+		
+			
+			<!--	
+				tick_counter — это дурацкая переменная, которая отсчитывает вызовы событий onhover. В документации написано, что вызовы осуществляются со скорость 15 штук в секунду
+				tick_limit — это дурацкая переменная, с помощью которой задаётся временная задержка, после отсчёта которой будут вызваны полезные события onhover, а именно подсказки. Она прописывается индивидуально для каждого элемента интерфейса.
+				Счётчик обнуляется на событии onover.
+				После первого вызова полезных событий в onhover, задержка увеличивается втрое.
+			-->
+			
+
+			<layer
+				name="show_catalog"
+				url="../img/tiles-desktop.png"
+
+				visible="true"
+
+				active="true"
+				align="center"
+				fix_align="left"
+
+				width="32"
+				height="32"
+
+				x="0" y="0"
+
+				devices="desktop"
+
+				tick_limit="5"
+				onover="
+					set(skin_settings.tick_counter, 0);
+				"
+				onout="
+					set(tck, get(skin_settings.tick_counter));
+					if(tck GE tick_limit,
+						set(tick_limit, 30);
+					);
+				"
+				onhover="
+					inc(skin_settings.tick_counter);
+					set(tck, get(skin_settings.tick_counter));
+					if(tck GE tick_limit,
+						showtext('Каталог', style1);
+					);
+				"
+
+				ondown="
+					set(scale, 0.95);
+				"
+
+				onup="
+					set(scale, 1);
+				"
+
+				onclick="
+					show_catalog();
+				"
+			/>
+
+			<layer
+				name="show_catalog"
+				url="../img/tiles-retina.png"
+
+				visible="true"
+				active="true"
+
+				align="center"
+				fix_align="left"
+
+				x="0" y="0"
+				y.mobile="-2"
+				width="32"
+				height="32"
+				devices="tablet"
+			>
+				<layer name="map_touchfield"
+					url="../img/void.png"
+					align="center"
+					x="0" y="0"
+					width="32"
+					height="32"
+					enabled="true"
+
+					onclick="
+						show_catalog();
+					"
+
+					ondown="
+						set(layer[ring].parent, show_catalog);
+						set(layer[ring].y, -31);
+						callwith(layer[ring], layer[ring].show());
+					"
+					onup="
+						callwith(layer[ring], layer[ring].hide());
+					"
+				/>
+			</layer>
+
+			<layer name="scene_title"
+				url="%SWFPATH%/plugins/textfield.swf"
+				align="leftbottom"
+
+				active="true"
+				autoheight="true"
+				alpha="1"
+				x="155" 
+				y.desktop="9"
+				y.no-desktop="8"
+
+				enabled="false"
+				background="false"
+				border="false"
+
+				css="
+					text-align: left; 
+					color: #dddddd; 
+					font-family: Lato, OpenSans; 
+					font-size: 22px;
+					font-weight: 300;
+					padding-left: 2px;
+				"
+				visible="true"
+				devices="!mobile"
+
+				onloaded="
+					set(layer[scene_title].css, '
+						text-align: left; 
+						color: #dddddd; 
+						font-family:Lato, OpenSans, sans-serif; 
+						font-size: 22px;
+						font-weight: 400;
+					');
+				"
+			/>
+
+			<!-- Кнопка переключения экранного режима -->
+			<layer name="button_fullscreen"
+				url="../img/fullscreen.png"
+				crop="0|0|32|32"
+				
+				align="center"
+				fix_align="right"
+				active="true"
+
+				width="32"
+				height="32"
+				x="9" y="0"
+				tick_limit="5"
+				onover="
+					set(skin_settings.tick_counter, 0);
+				"
+				onout="
+					set(tck, get(skin_settings.tick_counter));
+					if(tck GE tick_limit,
+						set(tick_limit, 30);
+					);
+				"
+				onhover="
+					inc(skin_settings.tick_counter);
+					set(tck, get(skin_settings.tick_counter));
+					if(tck GE tick_limit,
+						showtext(get(caption), style1);
+					);
+				"
+				onloaded="
+					if(fullscreen,
+						set(crop, '32|0|32|32');
+					);
+				"
+
+				switch_crop="
+					switch(crop, '32|0|32|32', '0|0|32|32');
+				"
+
+				ondown="
+					set(scale, 0.95);
+				"
+
+				onup="
+					set(scale, 1);
+				"
+
+				caption="Переключить в полноэкранный режим"
+				onclick="switch(fullscreen);"
+				devices="desktop"
+			/>
+
+			<layer name="button_fullscreen"
+				url="../img/fullscreen_retina.png"
+				crop="0|0|64|64"
+
+				align="center"
+				fix_align="right"
+				active="true"
+
+				width="32"
+				height="32"
+				x="5" y="0"
+
+				onloaded="
+					if(fullscreen,
+						set(crop, '64|0|64|64');
+					);
+				"
+
+				onclick="switch(fullscreen);"
+				devices="tablet"
+				switch_crop="
+					switch(crop, '32|0|32|32', '0|0|32|32');
+				"
+				ondown="
+					set(layer[ring].parent, button_fullscreen);
+					set(layer[ring].y, -31);
+					callwith(layer[ring], layer[ring].show());
+				"
+				onup="
+					callwith(layer[ring], layer[ring].hide());
+				"		
+			/>
+		</layer>
+	</layer>
+
+	<textstyle 
+		name="style1"
+		font="Lato"
+		fontsize="16.0"
+		bold="false"	
+		background="true"
+		backgroundcolor="0x1d1d1d"
+		border="false"
+		bordercolor="0xffffff"
+		textcolor="0xffffff"
+		alpha="1"
+		blendmode="normal"
+
+		origin="cursor"
+		edge="bottom"
+		textalign="center"
+		xoffset="0"
+		yoffset="-5"
+		showtime="0.1"
+		fadetime="0.1"
+		fadeintime="0.1"
+		noclip="true"
+		padding="3 6 3"
+	/>
+</krpano>

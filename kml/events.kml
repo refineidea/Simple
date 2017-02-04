@@ -7,6 +7,9 @@
 	/>	
 
 	<events name="global_events" keep="true"
+		onnewscene="
+			copy(layer[scene_title].html, scene[get(xml.scene)].title);
+		"
 		onxmlcomplete="
 			add_hotspot_thumbs();
 			add_tiles();
@@ -24,13 +27,17 @@
 			if (_.run_on_startup,
 				set(_.run_on_startup, false);
 
+				set(layer[scene_title].html, 'TEST');
+
 				for (set(_.i, 0), _.i LT scene.count, inc(_.i),
-					if (_.i !== xml.scene,
-						set(scene[get(_.i)].visited, false);
-					,
+					if (_.i == scene[get(simple.startscene)].index,
 						set(scene[get(_.i)].visited, true);
+					,
+						set(scene[get(_.i)].visited, false);
 					);
 				);
+
+				callwith(layer[content_buttons_wrapper], fix_buttons);
 
 				init_catalog();
 			);
@@ -72,7 +79,27 @@
 		"	
 	/>
 
+	<events name="tablet_events" devices="tablet" keep="true"
+		onclick="
+			if(catalog.state == 'opened',
+				show_catalog();
+			);
+		"
+	/>
+
 	<events name="desktop_events" devices="desktop" keep="true"
+		onclick="
+			if(catalog.state == 'opened',
+				show_catalog();
+			);
+		"
+		onenterfullscreen="
+			callwith(layer[button_fullscreen], switch_crop);
+		"
+
+		onexitfullscreen="
+			callwith(layer[button_fullscreen], switch_crop);
+		"
 		onkeydown="
 			
 			if(keycode == 17,
@@ -94,6 +121,20 @@
 		onkeyup="
 			if(keycode == 17,
 				set(_.ctrl_flag, false);
+			);
+		"
+
+		onresize="	
+			delayedcall(0,
+				if (stagewidth LT 748,
+					copy(layer[bottom_control_bar].width, stagewidth);
+					set(layer[catalog_scroll_window].y, 60);
+					set(layer[bottom_control_bar].y, 0);
+				,
+					set(layer[bottom_control_bar].width, 720);
+					set(layer[catalog_scroll_window].y, 70);
+					set(layer[bottom_control_bar].y, 10);
+				);
 			);
 		"
 	/>

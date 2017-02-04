@@ -17,6 +17,9 @@
 -->
 
 <krpano showerrors="false">
+
+	<!-- Public skin options -->
+	<include url="options.kml" />
 	
 	<!-- WebVR plugin -->
 	<include url="../plugins/webvr.xml" devices="html5" />
@@ -24,17 +27,23 @@
 	<!-- Overridden features of vanilla version of webvr -->
 	<include url="webvr_overridings.kml" devices="html5" />
 
+	<!-- Showtext plugin -->
+	<include url="../plugins/showtext.xml" />
+
 	<!-- Start screen -->
 	<include url="start_screen.kml" />
 
 	<!-- Common events -->
 	<include url="events.kml" />
 
+	<!-- VR user interface -->
+	<include url="vr.kml" />
+
 	<!-- Mobile user interface -->
 	<include url="mobile.kml" />
 
-	<!-- VR user interface -->
-	<include url="vr.kml" />
+	<!-- Desktop & tablet user interface -->
+	<include url="desktop.kml" />
 
 	<!-- Mobile & desktop hotspots -->
 	<include url="hotspot.kml" />

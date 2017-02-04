@@ -175,7 +175,7 @@
 
 		if (device.tablet,
 			calc(_.tx, _.tx + 0.5*hotspot[%1].width + 5);
-			calc(_.ty, _.ty - 84);
+			calc(_.ty, _.ty - 79);
 		);
 
 		copy(layer[hs_thumb_container].x, _.tx);
@@ -274,7 +274,7 @@
 
 			if (device.tablet,
 				calc(_.tx, _.tx + 0.5*hotspot[get(layer[hs_thumb_container].parent_hs)].width + 5);
-				calc(_.ty, _.ty - 84);
+				calc(_.ty, _.ty - 79);
 			);
 
 			copy(layer[hs_thumb_container].x, _.tx);
@@ -359,12 +359,12 @@
 		text-align:center; 
 		color:#d8d4d0;
 		background: rgba(45, 44, 42, 0.75);
-		border-radius: 16px;
+		border-radius: 8px;
 		border: 3px solid rgba(0, 0, 0, 0.05); 
 		font-family:OpenSans, sans-serif; 
 		font-weight:regular; 
-		font-size:16px; 
-		padding: 7px 10px;
+		font-size:18px; 
+		padding: 5px 10px;
 		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
 	]]>
 	</data>

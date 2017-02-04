@@ -48,12 +48,18 @@
 		old_x="0"
 		old_y="0"
 		clicked="false"
+
+		hover_scale.touch="0.98"
+		hover_scale.desktop="1.01"
+
 		onover="
 			tap_hover_react();
 		"
 		onout="
-			console.log(onout);
 			untap_onout_react();
+		"
+		ondown.desktop="
+			tween(scale, 0.99, 0.05);
 		"
 		ondown.touch="
 			tap_hover_react();
@@ -65,18 +71,18 @@
 		tap_hover_react="
 			ifnot (overed,
 				set(overed, true);
-				tween(scale, 0.98, 0.1);
+				tween(scale, get(hover_scale), 0.1);
 				if (layer[thumbs_thumbborder].parent == name,
-					tween(layer[thumbs_thumbborder].scale, 0.98, 0.1);
+					tween(layer[thumbs_thumbborder].scale, get(hover_scale), 0.1);
 				);
 			);
 		"
 
 		untap_onout_react="
 			set(overed, false);
-			tween(scale, 1, 0.1);
+			tween(scale, 1, 0.05);
 			if (layer[thumbs_thumbborder].parent == name,
-				tween(layer[thumbs_thumbborder].scale, 1, 0.1);
+				tween(layer[thumbs_thumbborder].scale, 1, 0.05);
 			);
 		"
 		onclick="
@@ -264,6 +270,7 @@
 				width="100%"
 				height="1"
 				zorder="5"
+				devices="mibile"
 				bgshadow="0 1 1 0 0x000000 0.25"
 			/>
 
@@ -298,7 +305,7 @@
 						name="thumbs_croparea"
 						type="container"
 						align="topcenter"
-						x="0" y="4"
+						x="0" y="1"
 						y.mobile="4"
 						bgcolor="0xffffff"
 						bgalpha="0"
@@ -307,7 +314,7 @@
 						bgroundedge="0"
 						resize="
 							calc(width, layer[catalog_container].width);
-							calc(height, layer[catalog_container].height - y);
+							calc(height, layer[catalog_container].height - y - 1);
 
 							set(layer[hr2].y, calc(height - 1));
 
@@ -610,7 +617,6 @@
 
 		copy(layer[thumbs_thumbborder].width, catalog.thumbswidth);
 		copy(layer[thumbs_thumbborder].height, catalog.thumbsheight);
-
 
 		copy(layer[thumbs_scrollarea].width, layer[thumbs_croparea].width);
 

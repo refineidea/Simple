@@ -2,7 +2,7 @@
 	Mobile layout, VR mode entrypoint
 -->
 
-<krpano devices="mobile">
+<krpano>
 
 	<layer name="open_catalog"
 		url="../img/tiles-mobile.png"
@@ -13,6 +13,8 @@
 		align="bottomcenter"
 		x="0" y="24"
 		y_shown="24"
+
+		devices="mobile"
 
 		ondown="
 			set(layer[ring].parent, open_catalog);
@@ -38,8 +40,10 @@
 		visible="false"
 		alpha="0"
 
-		enabled="false"
+		scale.mobile="1"
+		scale.tablet="0.5"
 
+		enabled="false"
 		show="
 			set(visible, true);
 			tween(alpha, 1, 0.05);

@@ -11,7 +11,10 @@
 		onloaded="
 			resize();
 
-			set(layer[open_catalog].visible, true);
+			delayedcall(0.5,
+				set(layer[open_catalog].visible, true);
+				set(layer[bottom_control_bar].visible, true);
+			);			
 		"
 		resize="
 			if (visible,
@@ -30,7 +33,7 @@
 				);
 			);
 		"
-		zorder="3"
+		zorder="10"
 	/>
 
 	<layer name="play_tour"
@@ -42,11 +45,16 @@
 		x.desktop="0" x.tablet="0" x.mobile="-80"
 		y.desktop="0" y.tablet="0" y.mobile="0"
 
-		zorder="40"
+		scale.desktop="0.5"
+		scale.tablet="0.5"
+		ring_y.mobile="-34"
+		ring_y.tablet="-17"
+
+		zorder="11"
 
 		ondown.touch="
 			set(layer[ring].parent, play_tour);
-			set(layer[ring].y, -34);
+			copy(layer[ring].y, ring_y);
 			callwith(layer[ring], layer[ring].show());
 		"
 		onup.touch="
@@ -73,7 +81,7 @@
 		x.desktop="0" x.tablet="0" x.mobile="80"
 		y.desktop="0" y.tablet="0" y.mobile="0"
 
-		zorder="40"
+		zorder="11"
 
 		ondown.touch="
 			set(layer[ring].parent, go_VR_already);

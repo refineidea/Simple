@@ -1,6 +1,10 @@
 <krpano version="1.19" title="Simple" onstart="">
 
 	<include url="kml/simple.kml" />
+
+	<simple
+		startscene="scene_p943"
+	/>
 	
 	<scene name="scene_p943" title="Прихожая" onstart="" thumburl="panos/p943.tiles/thumb.jpg" lat="" lng="" heading="">
 
