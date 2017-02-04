@@ -23,6 +23,7 @@
 
 			if (_.run_on_startup,
 				set(_.run_on_startup, false);
+
 				for (set(_.i, 0), _.i LT scene.count, inc(_.i),
 					if (_.i !== xml.scene,
 						set(scene[get(_.i)].visited, false);
@@ -44,7 +45,11 @@
 				copy(_.old_stagewidth, stagewidth);
 				copy(_.old_stageheight, stageheight);
 				resize_catalog();
+				callwith(layer[poster], resize);
 			);
+		"
+		onloadcomplete="
+			callwith(layer[poster], hide);
 		"
 	/>
 

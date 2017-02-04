@@ -8,6 +8,8 @@
 		url="../img/tiles-mobile.png"
 		keep="true"
 
+		visible="false"
+
 		align="bottomcenter"
 		x="0" y="24"
 		y_shown="24"
@@ -31,7 +33,7 @@
 		keep="true"
 
 		align="bottomcenter"
-		x="0" y="15"
+		x="0" y="0"
 
 		visible="false"
 		alpha="0"

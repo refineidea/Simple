@@ -52,6 +52,10 @@
 			get_current_tile_list();
 			hide_hotspot_list_recurrent(hotspot_list.count);
 			hide_background();
+
+			txtadd(_.thumb_name, 'thumb_', get(scene[get(linkedscene)].index));
+			callwith(layer[get(_.thumb_name)], onclick);
+
 			delayedcall(0.5,
 				loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear));
 			);

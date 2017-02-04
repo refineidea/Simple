@@ -1,0 +1,96 @@
+<krpano>
+	<layer name="poster"
+		keep="true"
+		url="../poster.jpg"
+		align="center"
+		enabled="false"
+		width="1200"
+		height="600"
+		x="0" y="0"
+		alpha="1"
+		onloaded="
+			resize();
+
+			set(layer[open_catalog].visible, true);
+		"
+		resize="
+			if (visible,
+				div(ratio, stagewidth, stageheight);
+				if(ratio LT 2,
+					div(scale, stageheight, height);
+				,
+					div(scale, stagewidth, width);
+				);
+			);			
+		"
+		hide="
+			delayedcall(0.1,
+				tween(alpha, 0, , ,
+					set(visible, false);
+				);
+			);
+		"
+		zorder="3"
+	/>
+
+	<layer name="play_tour"
+		url="../img/start_screen.png"
+		crop="0|0|120|120"
+		keep="true"
+
+		align="center"
+		x.desktop="0" x.tablet="0" x.mobile="-80"
+		y.desktop="0" y.tablet="0" y.mobile="0"
+
+		zorder="40"
+
+		ondown.touch="
+			set(layer[ring].parent, play_tour);
+			set(layer[ring].y, -34);
+			callwith(layer[ring], layer[ring].show());
+		"
+		onup.touch="
+			callwith(layer[ring], layer[ring].hide());
+		"
+
+		onclick="
+			tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
+				set(layer[play_tour].visible, false);
+				set(layer[go_VR_already].visible, false);
+				loadscene(0, null, MERGE, BLEND(0.5));
+			);
+		"
+	/>
+
+	<layer name="go_VR_already"
+		url="../img/start_screen.png"
+		crop="120|0|120|120"
+		keep="true"
+
+		devices="mobile"
+
+		align="center"
+		x.desktop="0" x.tablet="0" x.mobile="80"
+		y.desktop="0" y.tablet="0" y.mobile="0"
+
+		zorder="40"
+
+		ondown.touch="
+			set(layer[ring].parent, go_VR_already);
+			set(layer[ring].y, -34);
+			callwith(layer[ring], layer[ring].show());
+		"
+		onup.touch="
+			callwith(layer[ring], layer[ring].hide());
+		"
+
+		onclick="
+			webvr.enterVR();
+			tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
+				set(layer[play_tour].visible, false);
+				set(layer[go_VR_already].visible, false);
+				loadscene(0, null, MERGE, BLEND(0.5));
+			);
+		"
+	/>
+</krpano>

@@ -13,6 +13,11 @@
 		new_y="0"
 		y_center="0"
 		grid_offset="0"
+		caption_name="0"
+		new_height="0"
+		max_toverflow="0"
+		rel_overflow="0"
+		slider_travel_distance="0"
 	/>
 
 	<catalog
@@ -36,7 +41,7 @@
 		parent="thumbs_scrollarea"
 		keep="true"
 		visible="true"
-		align="lefttop"
+		align="top"
 		width="get:catalog.thumbswidth"
 		height="get:catalog.thumbsheight"
 		zorder="10"
@@ -44,47 +49,69 @@
 		overed="false"
 		old_x="0"
 		old_y="0"
+		clicked="false"
 		onover="
 			tap_hover_react();
 		"
 		onout="
+			console.log(onout);
 			untap_onout_react();
 		"
 		ondown.touch="
 			tap_hover_react();
 		"
-		onup.touch="
-			untap_onout_react();
+		onup.touch="		
+			untap_onout_react();			
 		"
 
 		tap_hover_react="
-
 			ifnot (overed,
 				set(overed, true);
-				set(scale, 1.02);
-
-				copy(old_x, x);
-				copy(old_y, y);
-
-				calc(x, x - 0.01 * width);
-				calc(y, y - 0.01 * height);
+				tween(scale, 0.98, 0.1);
+				if (layer[thumbs_thumbborder].parent == name,
+					tween(layer[thumbs_thumbborder].scale, 0.98, 0.1);
+				);
 			);
 		"
 
-		untap_onout_react="			
-
+		untap_onout_react="
 			set(overed, false);
-			set(scale, 1);
-
-			copy(x, old_x);
-			copy(y, old_y);
-			
+			tween(scale, 1, 0.1);
+			if (layer[thumbs_thumbborder].parent == name,
+				tween(layer[thumbs_thumbborder].scale, 1, 0.1);
+			);
 		"
 		onclick="
+
 			untap_onout_react();
 
-			show_catalog(
-				delayedcall(0.3, loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear)));
+			delayedcall(0.15,
+				set(layer[thumbs_thumbborder].visible, true);
+				tween(layer[thumbs_thumbborder].alpha, 0, 0.1, ,
+					copy(layer[thumbs_thumbborder].parent, name);
+					delayedcall(0.05,
+						tween(layer[thumbs_thumbborder].alpha, 1, 0.1, ,
+							delayedcall(0.05,
+								ifnot (scene[get(linkedscene)].visited,
+									txtadd(_.caption_name, get(name), '_caption');
+									txtadd(layer[get(_.caption_name)].html, '✓ ', get(layer[get(_.caption_name)].html));
+									set(scene[get(linkedscene)].visited, true);
+								);
+							);
+						);
+					);
+				);
+			);
+
+			if(catalog.state == 'opened',
+				delayedcall(0.85,
+					show_catalog(
+						layer[thumbs_scrollarea].setcenter(0, calc(y + height/2));
+						delayedcall(0.3, loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear)));
+					);
+				);
+			,
+				layer[thumbs_scrollarea].setcenter(0, calc(y + height/2));
 			);
 		"
 		linkedscene=""
@@ -276,7 +303,7 @@
 						x="0" y="4"
 						y.mobile="4"
 						bgcolor="0xffffff"
-						bgalpha="0.0"
+						bgalpha="0"
 						width="0"
 						height="0"
 						bgroundedge="0"
@@ -286,7 +313,7 @@
 
 							set(layer[hr2].y, calc(height - 1));
 
-							set(layer[thumbs_scrollindicator].x, calc(layer[thumbs_croparea].width - catalog.padding/2));
+							//set(layer[thumbs_scrollindicator].x, calc(layer[thumbs_croparea].width - catalog.padding/2));
 						"
 					>
 						<layer 
@@ -315,6 +342,7 @@
 							keep="true" 
 							url="../img/thumbborder.png" 
 							visible="false" 
+							alpha="0"
 							enabled="false" 
 							align="lefttop"
 							zorder="6"
@@ -327,9 +355,9 @@
 							type="container"
 							bgcolor="0xffffff"
 							bgalpha="0.25"
-							align="lefttop"
+							align="righttop"
 							height="100"
-							x="714"
+							x="0"
 							width="4"
 							bgroundedge="2"
 							zorder="4"
@@ -395,7 +423,6 @@
 
 		thumbs_onresize();
 
-		set(layer[thumbs_scrollindicator].x, calc(layer[thumbs_croparea].width - catalog.padding/2));
 		update_thumbs_scroll();
 	</action>
 
@@ -458,15 +485,15 @@
 
 		if(hoverflow GT 0,
 
-			set(new_height, calc(layer[thumbs_croparea].height * layer[thumbs_croparea].height / layer[thumbs_scrollarea].height));
-			copy(layer[thumbs_scrollindicator].height, new_height);
+			set(_.new_height, calc(layer[thumbs_croparea].height * layer[thumbs_croparea].height / layer[thumbs_scrollarea].height));
+			copy(layer[thumbs_scrollindicator].height, _.new_height);
 
-			calc(slider_travel_distance, layer[thumbs_croparea].height-new_height);
+			calc(_.slider_travel_distance, layer[thumbs_croparea].height - _.new_height);
 
-			calc(max_toverflow, layer[thumbs_scrollarea].height - layer[thumbs_croparea].height);
-			calc(rel_overflow, toverflow / max_toverflow);
+			calc(_.max_toverflow, layer[thumbs_scrollarea].height - layer[thumbs_croparea].height);
+			calc(_.rel_overflow, toverflow / _.max_toverflow);
 
-			calc(layer[thumbs_scrollindicator].y, slider_travel_distance * rel_overflow);
+			calc(layer[thumbs_scrollindicator].y, _.slider_travel_distance * _.rel_overflow);
 		 );
 
 	</action>
@@ -497,6 +524,12 @@
 
 		copy(layer[get(_.thumb_name)].linkedscene, scene[%1].name);
 
+		if (scene[%1].visited, 
+			copy(layer[thumbs_thumbborder].parent, _.thumb_name);
+			set(layer[thumbs_thumbborder].visible, true);
+			set(layer[thumbs_thumbborder].alpha, 1);
+		);
+
 		add_thumb_caption(%1);
 
 	</action>
@@ -506,14 +539,18 @@
 	-->
 	<action name="add_thumb_caption">
 
-		txtadd(_.thumb_caption, 'thumb_caption_', %1);
+		txtadd(_.thumb_caption, 'thumb_', %1, '_caption');
 		addlayer(get(_.thumb_caption));
 
 		layer[get(_.thumb_caption)].loadstyle('thumb_caption_prototype');
 
 		copy(layer[get(_.thumb_caption)].parent, _.thumb_name);
 		copy(layer[get(_.thumb_name)].child_caption, _.thumb_caption);
-		copy(layer[get(_.thumb_caption)].html, scene[%1].title);		
+		copy(layer[get(_.thumb_caption)].html, scene[%1].title);
+
+		if (scene[%1].visited, 
+			txtadd(	layer[get(_.thumb_caption)].html, '✓ ', get(layer[get(_.thumb_caption)].html));
+		);
 
 	</action>
 
@@ -594,8 +631,6 @@
 		copy(layer[thumbs_thumbborder].width, catalog.thumbswidth);
 		copy(layer[thumbs_thumbborder].height, catalog.thumbsheight);
 
-		set(layer[thumbs_scrollindicator].x, calc(layer[thumbs_croparea].width - catalog.padding/2));
-
 		// рассчитываем размеры области скроллинга
 		copy(layer[thumbs_scrollarea].width, layer[thumbs_croparea].width);
 
@@ -644,13 +679,13 @@
 
 		if (_.thumbs_columns == 1,
 			set(column, 0);
-			calc(_.new_x, (layer[thumbs_croparea].width - catalog.thumbswidth) / 2);
+			calc(_.new_x, 0);
 		,
 			mod(column, %1, _.thumbs_columns);
 			if (device.mobile AND (column == 1),
-				calc(_.new_x, catalog.padding + (_.grid_offset + catalog.thumbswidth) * column);
+				calc(_.new_x, -0.5*catalog.padding + (_.grid_offset + catalog.thumbswidth) * column - catalog.thumbswidth/2);
 			,
-				calc(_.new_x, _.grid_offset + (_.grid_offset + catalog.thumbswidth) * column);
+				calc(_.new_x, -0.5*_.grid_offset + (_.grid_offset + catalog.thumbswidth) * column - catalog.thumbswidth/2);
 			);			
 		);		
 

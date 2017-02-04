@@ -1,10 +1,6 @@
-<krpano version="1.19" title="Simple" onstart="startup();">
+<krpano version="1.19" title="Simple" onstart="">
 
 	<include url="kml/simple.kml" />
-
-	<action name="startup">
-		loadscene(0, null, MERGE, BLEND(0.5));
-	</action>
 	
 	<scene name="scene_p943" title="Прихожая" onstart="" thumburl="panos/p943.tiles/thumb.jpg" lat="" lng="" heading="">
 

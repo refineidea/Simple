@@ -114,7 +114,9 @@
 		desktop_handler="
 			if(linkedscene,
 				hide_hs_thumb(get(linkedscene));
-				set(scene[get(linkedscene)].visited, true);
+
+				txtadd(_.thumb_name, 'thumb_', get(scene[get(linkedscene)].index));
+				callwith(layer[get(_.thumb_name)], onclick);
 
 				tween(alpha, 0, 0.5, default,
 
@@ -287,7 +289,7 @@
 		text-align:center; 
 		color:#d8d4d0;
 		background: rgba(45, 44, 42, 0.75);
-		border-radius: 16px;
+		border-radius: 8px;
 		border: 3px solid rgba(0, 0, 0, 0.05); 
 		font-family:OpenSans, sans-serif; 
 		font-weight:regular; 
@@ -301,7 +303,7 @@
 		text-align:center; 
 		color:#efebe8;
 		background: rgba(45, 44, 42, 0.75);
-		border-radius: 16px;
+		border-radius: 8px;
 		border: 3px solid rgba(0, 0, 0, 0.05); 
 		font-family:OpenSans, sans-serif; 
 		font-weight:regular; 
@@ -315,7 +317,7 @@
 		text-align:center; 
 		color:#d8d4d0;
 		background: rgba(45, 44, 42, 0.75);
-		border-radius: 16px;
+		border-radius: 8px;
 		border: 3px solid rgba(0, 0, 0, 0.05); 
 		font-family:OpenSans, sans-serif; 
 		font-weight:regular; 
@@ -329,7 +331,7 @@
 		text-align:center; 
 		color:#efebe8;
 		background: rgba(45, 44, 42, 0.75);
-		border-radius: 16px;
+		border-radius: 8px;
 		border: 3px solid rgba(0, 0, 0, 0.05); 
 		font-family:OpenSans, sans-serif; 
 		font-weight:regular; 
