@@ -1,4 +1,9 @@
 <krpano>
+	
+	<_
+		tour_started="false"
+	/>
+
 	<layer name="poster"
 		keep="true"
 		url="../poster.jpg"
@@ -59,19 +64,38 @@
 				callwith(layer[ring], layer[ring].hide());
 			);
 		"
+		onover.desktop="
+			callwith(layer[ring], layer[ring].show());
+		"
+		onout.desktop="
+			ifnot (_.tour_started,
+				delayedcall(hide_ring, 0.1,
+					callwith(layer[ring], layer[ring].hide());
+				);
+			);
+		"
 		onclick="
 			stopdelayedcall(hide_ring);
 			set(layer[ring].parent, '');
-			copy(layer[ring].x, x);
+
+			copy(layer[ring].x, 0);
+			if (device.mobile, 
+				copy(layer[ring].x, x);
+			);
+			
 			copy(layer[ring].y, 0);
+
+			set(_.tour_started, true);
 			tween(layer[go_VR_already].alpha|layer[play_tour].alpha, 0|0, , ,
 				set(layer[play_tour].visible, false);
 				set(layer[go_VR_already].visible, false);
 			);
 			delayedcall(0.15,
 				tween(layer[ring].x, 0, 0.5, ,
-					loadingpercent_startloading();
 					loadscene(0, null, MERGE, BLEND(0.5));
+				);
+				delayedcall(0.2,
+					loadingpercent_startloading();
 				);
 			);
 		"

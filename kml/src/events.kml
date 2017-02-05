@@ -4,11 +4,17 @@
 		run_on_startup="true"
 		old_stagewidth="0"
 		old_stageheight="0"
+		ctrl_flag="false"
+		space_flag="false"
 	/>	
 
 	<events name="global_events" keep="true"
 		onnewscene="
 			copy(layer[scene_title].html, scene[get(xml.scene)].title);
+
+			if (webvr.isenabled,
+				show_vr_hotspots();
+			);
 		"
 		onxmlcomplete="
 			add_hotspot_thumbs();
@@ -117,6 +123,10 @@
 			if(keycode == 17,
 				set(_.ctrl_flag, true);
 			);
+
+			if(keycode == 32,
+				set(_.space_flag, true);
+			);
 		
 			if(_.ctrl_flag,
 				set(vlookat_moveforce, 0);
@@ -127,6 +137,20 @@
 				);
 				if(keycode == 39,
 					skin_nextscene(1);
+				);
+			);
+
+			if (_.space_flag,
+				// s
+				if (keycode == 83,
+					trace(	' hlookat=&quot;', get(view.hlookat), '&quot;',
+							' vlookat=&quot;', get(view.vlookat), '&quot;'
+						);
+				);
+
+				// i
+				if(keycode == 73,
+					switch_interface();
 				);
 			);
 		"
@@ -150,5 +174,40 @@
 			);
 		"
 	/>
+
+	<action name="switch_interface">
+		switch(layer[bottom_control_bar].visible);
+
+		if(device.mobile,
+			switch(layer[open_catalog].visible);
+		);
+		
+		// Есть слои, невидимые, их делаем прозрачными
+//		switch(layer[skin_cont_photo].bgalpha, 0, 0.8);
+//		switch(layer[scrolltextwindow].bgalpha, 0, get(modalwindow.bgalpha));
+		
+		for(set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+			ifnot (hotspot[get(_.i)].hidden_on_start,
+				switch(hotspot[get(_.i)].visible);
+			,
+				if(hotspot[get(_.i)].hidden_on_start == null,
+					switch(hotspot[get(_.i)].visible);
+				);
+			);
+		);
+		
+		// При движении панорамы хотспоты появляются — это баг, убираем.
+		ifnot(layer[bottom_control_bar].visible,
+			set(events[auto_events].onviewchange,
+				'for(set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+					set(hotspot[get(_.i)].visible, false);
+				);'
+			);
+		);
+		
+		if(layer[bottom_control_bar].visible,
+			set(events[auto_events].onviewchange, '');
+		);
+	</action>
 
 </krpano>

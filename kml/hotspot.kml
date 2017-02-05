@@ -51,36 +51,12 @@
 			callwith(hotspot[get(layer[hs_thumb_container].parent_hs)], desktop_handler);
 		"
 	/>
-		
-	<style name="caption"
-		url="%SWFPATH%/plugins/textfield.swf"
 
-		css="data:default_hotspot_style"
-		css.mac="data:default_hotspot_style_macOS"
-		css.mobile="data:mobile_hotspot_style"
-		css.tablet="data:tablet_hotspot_style"
-
+	<style name="hotspot_proto"
 		init_ath="0"
 		init_atv="0"
 		state="in"
-
-		vcenter="true"
-		autowidth="true"
-
-		backgroundcolor="0x000000" backgroundalpha="0" roundedge="0" border="false"
-
 		scene_keepview="false"
-
-		onover.desktop="
-			show_hs_thumb(get(name));
-
-
-			if (device.mac,
-				copy(css, data[default_overed_hotspot_style_macOS].content);
-			,
-				copy(css, data[default_overed_hotspot_style].content);
-			);
-		"
 
 		onclick.touch="
 			show_hs_thumb(get(name));
@@ -112,6 +88,61 @@
 			if(linkedscene,
 				hide_hs_thumb(get(linkedscene));
 
+				txtadd(_.thumb_name, 'thumb_', get(scene[get(linkedscene)].index));
+				callwith(layer[get(_.thumb_name)], onclick);
+
+				tween(alpha, 0, 0.5, default,
+
+					ifnot(scene_keepview,
+						delayedcall(0.3, loadscene(get(linkedscene), null, MERGE, OPENBLEND(1, 0.0, 1, 0, linear)));
+					,
+						delayedcall(0.3, loadscene(get(linkedscene), null, KEEPVIEW, OPENBLEND(1, 0.0, 1, 0, linear)));
+					);
+				);
+			);
+		"
+	/>
+		
+	<style name="caption_textfield"
+		url="%SWFPATH%/plugins/textfield.swf"
+
+		css="data:default_hotspot_style"
+		css.mac="data:default_hotspot_style_macOS"
+		css.mobile="data:mobile_hotspot_style"
+		css.tablet="data:tablet_hotspot_style"
+
+		vcenter="true"
+		autowidth="true"
+
+		backgroundcolor="0x000000" backgroundalpha="0" roundedge="0" border="false"
+
+		onover.desktop="
+			show_hs_thumb(get(name));
+
+			if (device.mac,
+				copy(css, data[default_overed_hotspot_style_macOS].content);
+			,
+				copy(css, data[default_overed_hotspot_style].content);
+			);
+		"
+	/>
+
+	<style name="caption_vr"
+		visible="false"
+		custom_devices="vr"
+		depth="1500"
+		distorted="true"
+
+		onover="
+			vr_auto_click();
+			tween(depth, 1425, 0.25);
+		"
+		onout="
+			tween(depth, 1500, 0.25);
+		"
+
+		onclick="
+			if(linkedscene,
 				txtadd(_.thumb_name, 'thumb_', get(scene[get(linkedscene)].index));
 				callwith(layer[get(_.thumb_name)], onclick);
 

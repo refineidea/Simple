@@ -18,6 +18,9 @@
 		webvr_showbuttons();
 		webvr_hide_all_non_vr_layers();
 
+		// +
+		show_vr_hotspots();
+
 		<!-- when the screen size is unknown an no custom size is set, open the setup screen on entering the VR mode -->
 		if(webvr.ismobilevr == true AND !webvr.isfake AND ask_user_for_screensize == true AND webvr.mobilevr_screensize == 'auto',
 			set(ask_user_for_screensize, false);
@@ -33,7 +36,9 @@
 
 		// +
 		set(hotspot[tiles].visible, false);
-		hide_tiles();
+
+		// +
+		hide_vr_hotspots();
 
 		// tween(layer[webvr_enterbutton].alpha,1);
 		tween(layer[webvr_exitbutton].alpha,0);
@@ -42,5 +47,23 @@
 		webvr_show_fakemode_info(false);
 
 		webvr_restore_layers();
+
 	</action>
+
+	<action name="show_vr_hotspots">
+		for (set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+			if (hotspot[get(_.i)].custom_devices == 'vr',
+				set(hotspot[get(_.i)].visible, true);
+			);
+		);
+	</action>
+
+	<action name="hide_vr_hotspots">
+		for (set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+			if (hotspot[get(_.i)].custom_devices == 'vr',
+				set(hotspot[get(_.i)].visible, false);
+			);
+		);
+	</action>
+
 </krpano>

@@ -87,12 +87,18 @@
 	<action name="loading_doneactions">
 
 		callwith(layer[custom_loadingpercent_text], hide);
+
+		for (set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+			callwith(hotspot[get(_.i)], onover);
+			callwith(hotspot[get(_.i)],onout);
+		);
+
 		delayedcall(0.5, removelayer(custom_loadingpercent_text));
 		
 		delayedcall(0.35,
 			callwith(layer[poster], hide);
 			tween(layer[ring].alpha, 0, 0.5, easeInOutCubic, 
-				set(layer[ring].visible, false);
+				set(layer[ring].visible, false);				
 			);
 		);
 	</action>

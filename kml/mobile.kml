@@ -44,6 +44,7 @@
 
 		scale.mobile="1"
 		scale.tablet="0.5"
+		scale.desktop="0.5"
 
 		zorder="10"
 

@@ -272,7 +272,7 @@
 				width="100%"
 				height="1"
 				zorder="5"
-				devices="mibile"
+				devices="mobile"
 				bgshadow="0 1 1 0 0x000000 0.25"
 			/>
 
@@ -592,25 +592,42 @@
 		// Нужно рассчитать ширину эскизов в зависимости от
 		if (layer[thumbs_croparea].width GT catalog.controls_width,
 
+//			trace('---------------------');
+
 			// если на мобилке вдруг перешли в горизонтальный режим...
 			if (stagewidth GT stageheight,
-				calc(catalog.thumbsheight, (layer[thumbs_croparea].height - 2 * catalog.padding) / 3);
-				calc(catalog.thumbswidth, catalog.thumbsheight * 3 / 2);
 
-				if (device.android,
-					mul(catalog.thumbsheight, 3);
-					mul(catalog.thumbswidth, 3);
-				);
+//				console.log(catalog.padding);
+//				console.log(layer[thumbs_croparea].width);
 
-				if(device.ios, 
-					if (stagewidth LE 1136,
-						mul(catalog.thumbsheight, 2.5);
-						mul(catalog.thumbswidth, 2.5);
-					,
-						mul(catalog.thumbsheight, 2);
-						mul(catalog.thumbswidth, 2);
-					);
-				);
+//				calc(catalog.thumbsheight, (layer[thumbs_croparea].height - 2 * catalog.padding) / 3);
+//				calc(catalog.thumbswidth, catalog.thumbsheight * 3 / 2);
+
+				calc(catalog.thumbswidth, (layer[thumbs_croparea].width - 3 * catalog.padding) / _.thumbs_columns);
+				calc(catalog.thumbsheight, catalog.thumbswidth * 2 / 3);
+
+//				trace(1);
+//				console.log(catalog.thumbswidth);
+//				console.log(catalog.thumbsheight);
+//
+//				if (device.android,
+//					mul(catalog.thumbsheight, 3);
+//					mul(catalog.thumbswidth, 3);
+//				);
+//
+//				trace(2);
+//				console.log(catalog.thumbswidth);
+//				console.log(catalog.thumbsheight);
+//
+//				if(device.ios, 
+//					if (stagewidth LE 1136,
+//						mul(catalog.thumbsheight, 2.5);
+//						mul(catalog.thumbswidth, 2.5);
+//					,
+//						mul(catalog.thumbsheight, 2);
+//						mul(catalog.thumbswidth, 2);
+//					);
+//				);
 			,
 				// а если не на мобилке, то это десктопное окно.
 				set(catalog.thumbswidth, 324);
@@ -619,6 +636,10 @@
 		,
 			calc(catalog.thumbswidth, (layer[thumbs_croparea].width - (_.thumbs_columns + 1) * catalog.padding) / _.thumbs_columns);
 			
+//			trace(3);
+//			console.log(catalog.thumbswidth);
+//			console.log(catalog.thumbsheight);
+
 			calc(catalog.thumbsheight, catalog.thumbswidth * 2 / 3);
 			math.floor(catalog.thumbswidth);
 			math.floor(catalog.thumbsheight);

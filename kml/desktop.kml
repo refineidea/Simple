@@ -155,7 +155,7 @@
 
 					ondown="
 						set(layer[ring].parent, show_catalog);
-						set(layer[ring].y, -31);
+						set(layer[ring].y, 0);
 						callwith(layer[ring], layer[ring].show());
 					"
 					onup="
@@ -278,7 +278,7 @@
 				"
 				ondown="
 					set(layer[ring].parent, button_fullscreen);
-					set(layer[ring].y, -31);
+					set(layer[ring].y, 0);
 					callwith(layer[ring], layer[ring].show());
 				"
 				onup="

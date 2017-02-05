@@ -30,10 +30,10 @@
 	<!-- Showtext plugin -->
 	<include url="../plugins/showtext.xml" />
 
-		<plugin 
-	        alturl="%SWFPATH%/plugins/moretweentypes.js"
-	        preload="true"
-		/>
+	<plugin 
+		alturl="%SWFPATH%/plugins/moretweentypes.js"
+		preload="true"
+	/>
 
 	<!-- Start screen -->
 	<include url="start_screen.kml" />
@@ -53,7 +53,7 @@
 	<!-- Desktop & tablet user interface -->
 	<include url="desktop.kml" />
 
-	<!-- Mobile & desktop hotspots -->
+	<!-- Hotspots -->
 	<include url="hotspot.kml" />
 
 	<!-- Pano thumbs ribbon, instagram style -->

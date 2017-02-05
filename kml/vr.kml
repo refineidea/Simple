@@ -169,12 +169,14 @@
 		onclick="
 			tween(depth, 1000, 0.25);
 			if (_.state == 'closed',
+				hide_vr_hotspots();
 				next_page(0);
 			,
 				get_current_tile_list();
 				hide_hotspot_list_recurrent(hotspot_list.count);
 				hide_background();
 				hide_slider_marks();
+				show_vr_hotspots();
 			);
 		"
 	/>
@@ -418,7 +420,7 @@
 					addhotspot(get(_.tile_name));
 
 					hotspot[get(_.tile_name)].loadstyle('simple_vr_tile');
-					copy(hotspot[get(_.tile_name)].url, scene[get(_.k)].thumburl);
+					copy(hotspot[get(_.tile_name)].url, scene[get(_.k)].vr_thumburl);
 
 					copy(hotspot[get(_.tile_name)].my_page, _.p);
 					copy(hotspot[get(_.tile_name)].my_col, _.j);
