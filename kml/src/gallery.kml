@@ -1,0 +1,25 @@
+<!-- 
+	Photo Gallery Module
+-->
+
+<krpano>
+
+	<!--
+			Template!
+
+		<photo
+			name="photo100"
+			url="photo/0.jpg"
+		/>
+	
+		<photo
+			name="photo500"
+		/>
+	-->
+
+	<gallery
+		name="all"
+	>
+	</gallery>
+	
+</krpano>
