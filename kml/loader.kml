@@ -1,14 +1,270 @@
 <krpano>
-		
+
+	<events name="loader_events" keep="true"
+		onloadcomplete="
+			loader.stoploading();
+		"
+	/>
+
 	<_
+		s1="0"
+		s2="0"
+		ldr_cnt="0"
+		amount1="0"
+		amount2="0"
+		cmd_name=""
+		layer_name=""
+		pg=""
+		pn=""
+	/>
+
+	<style name="photo"
+		visible="true"
+		keep="true"
+		align="center"
+		enabled="false"
+		alpha="0"
+		x="0"
+		y="0"
+		scale="1"
+		parent="skin_cont_photo"
+		handcursor="false"
+	/>
+		
+	<loader
+		pano_weight="1"
+		photos_weight = "1"
+
+		start="
+			loader.check_extension();
+
+			if (loader.extended,
+				loader.set_loader_array();
+				loader.calc_percent_limits();
+			);		
+
+			set(layer[percent].zorder, 10);
+			tween(layer[percent].alpha, 1);
+
+			set(loader.isloading, true);
+			set(loader.old_pv, 0);
+			set(_.i, 0);
+			
+			asyncloop(loader.isloading,
+				mul(_.pv, progress.progress, loader.pano_loading_percent_limit);
+				roundval(_.pv, 0);
+				if(_.pv GT loader.old_pv,
+					if(_.pv GT 1,
+						txtadd(layer[percent].html, get(_.pv), '%');
+						set(loader.old_pv, get(_.pv));
+					);
+				);
+			);
+		"
+
+		stoploading="
+			set(loader.isloading, false);
+
+			if (loader.extended,
+				delayedcall(0.1, 
+					load_photos(get(loader.photos_count));
+					loader.loading_photo_percent_startloading();
+				);		
+			,
+				set(layer[percent].html, '100%');
+				delayedcall(0.5,
+					loader.doneactions();
+				);
+			);
+		"
+
+		loading_photo_percent_startloading="
+
+			set(loader.pv, get(loader.pano_loading_percent_limit));
+			
+			asyncloop(loader.photos_loaded_amount LT loader.photos_count,
+
+				roundval(loader.pv, 0);
+				if(loader.pv GT 100, set(loader.pv, 100));
+				txtadd(layer[percent].html, get(loader.pv), '%');
+			,
+				set(layer[percent].html, '100%');
+				delayedcall(0.5,
+					loader.doneactions();
+				);
+			);
+		"
+
 		isloading="true"
 		old_pv="0"
 		pv="0"
-		percent_limit="0"
+
+		extended="false"
+		photos_count="0"
+		pano_loading_percent_limit="100"
+		photo_loading_percent_limit="0"
+		photos_loaded_amount="0"
+
+		i1="0"
+		i2="0"
+		i3="0"
+		i4="0"
+		i5="0"
+		shift1="0"
+		shift2="0"
+		shift3="0"
+		shift4="0"
+		shift5="0"
+
+		set_loader_array="
+
+			if (photo.count,
+				for (set(_.i, 0), _.i LT photo.count, inc(_.i),
+
+					calc(gallery[0].photo[get(_.i)].name, 'photo_decl_' + loader.photos_count);
+					copy(gallery[0].photo[get(_.i)].photo_name, photo[get(_.i)].name);
+					copy(gallery[0].photo[get(_.i)].parent_gallery, null);
+					inc(loader.photos_count);
+				);
+			);
+			
+
+			if (gallery.count GT 1,
+				for (set(_.i, 1), _.i LT gallery.count, inc(_.i),
+					for (set(_.j, 0), _.j LT gallery[get(_.i)].photo.count, inc(_.j),
+
+						calc(gallery[0].photo[get(_.i)].name, 'photo_decl_' + loader.photos_count);
+						copy(gallery[0].photo[get(loader.photos_count)].photo_name, gallery[get(_.i)].photo[get(_.j)].name);
+						copy(gallery[0].photo[get(_.i)].parent_gallery, gallery[get(_.i)].name);
+						inc(loader.photos_count);
+					);
+				);
+			);
+		"
+
+		check_extension="
+			if ((photo.count GT 0) OR (gallery.count GT 1),
+				set(loader.extended, true);
+			);
+		"
+
+		calc_percent_limits="
+			calc(loader.pano_loading_percent_limit, (1 / (1 + loader.photos_weight / loader.pano_weight)) * 100);
+			calc(loader.photo_loading_percent_limit, (100 - loader.pano_loading_percent_limit) / loader.photos_count);
+		"
+
+		doneactions="
+			callwith(layer[percent], hide);
+
+			for (set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+				callwith(hotspot[get(_.i)], onover);
+				callwith(hotspot[get(_.i)],onout);
+			);
+
+			delayedcall(0.5, removelayer(percent));
+			
+			delayedcall(0.35,
+				callwith(layer[poster], hide);
+				tween(layer[ring].alpha, 0, 0.5, easeInOutCubic, 
+					set(layer[ring].visible, false);				
+				);
+			);
+		"
 	/>
 
+	<!-- 
+		Функция подготовки и запуска рекурсивной многопоточной загрузки фотографий.
+		Требует внесения предварительных данных в loader.
+		%1 – количество загружаемых фото
+	-->
+	<action name="load_photos">
+		if (%1 LT 3,
+			set(_.ldr_cnt, 2);
+		,
+			if (%1 LT 8,
+				set(_.ldr_cnt, 3);
+			,
+				if (%1 LT 10,
+					set(_.ldr_cnt, 4);
+				,
+					set(_.ldr_cnt, 5);
+				);
+			);
+		);
+		
+		div(_.s1, %1, _.ldr_cnt);
+		math.floor(_.s1);
+
+		mod(_.s2, %1, _.ldr_cnt);
+		
+		if(_.s2 == 0,
+			copy(_.amount1, _.s1);
+			copy(_.amount2, _.s1);
+			dec(_.ldr_cnt);
+		,
+			set(_.amount1, get(_.s1));
+			dec(_.ldr_cnt);
+			calc(_.amount2, %1 - _.s1 * _.ldr_cnt);
+		);
+		
+		copy(loader.shift2, _.s1);
+		mul(loader.shift3, _.s1, 2);
+		mul(loader.shift4, _.s1, 3);
+		mul(loader.shift5, _.s1, 4);
+		
+		for(set(_.i, 1), _.i LE _.ldr_cnt, inc(_.i),
+			txtadd(	_.cmd_name, 
+				'load_photos_recurrent(get(_.amount1), get(loader.shift', get(_.i), '), ', 'loader.i', get(_.i), ');'
+			);
+			delayedcall(0, get(_.cmd_name));
+		);
+		
+		txtadd(	_.cmd_name, 
+			'load_photos_recurrent(get(_.amount2), get(loader.shift', get(_.i), '), ', 'loader.i', get(_.i), ');'
+		);
+		delayedcall(0, get(_.cmd_name));
+			
+	</action>
+	
+	
+	<!-- Загрузчик фотографий 
+		%1 — количество загружаемых фото в потоке,
+		%2 — Смещение,
+		%3 — имя итератора потока.
+		Фотографии загружаются от конца области на загрузку к её началу.
+	-->
+	<action name="load_photos_recurrent">
+		calc(index, %1 + %2 - 1);
+		
+		txtadd(_.layer_name, 'photo_', get(index));
+
+		addlayer(get(_.layer_name));
+		layer[get(_.layer_name)].loadstyle('photo');
+
+		copy(_.pg, gallery[0].photo[get(index)].parent_gallery);
+		copy(_.pn, gallery[0].photo[get(index)].photo_name);
+
+		if (_.pg,
+			set(layer[get(_.layer_name)].url, get(gallery[get(_.pg)].photo[get(_.pn)].url));
+		,
+			set(layer[get(_.layer_name)].url, get(photo[get(_.pn)].url));
+		);
+
+		copy(layer[get(_.layer_name)].parent_gallery, _.pg);		
+		copy(layer[get(_.layer_name)].related_photo, _.pn);		
+		
+		set(layer[get(_.layer_name)].onloaded,
+			add(loader.pv, get(loader.photo_loading_percent_limit));
+			add(loader.photos_loaded_amount, 1);
+			sub(loader.%3, %1, 1);
+			if(loader.%3 GT 0,
+				load_photos_recurrent(get(loader.%3), %2, %3);
+			);
+		);
+	</action>
+
 	<layer
-		name="custom_loadingpercent_text"
+		name="percent"
 		keep="true"
 		url="%SWFPATH%/plugins/textfield.swf"
 		align="center"
@@ -48,59 +304,5 @@
 		"
 		zorder="0"
 	/>
-
-	<events name="loader_events" keep="true"
-		onloadcomplete="
-			loadingpercent_stoploading();
-		"
-	/>
-
-	<action name="loadingpercent_startloading">
-		set(layer[custom_loadingpercent_text].zorder, 10);
-		tween(layer[custom_loadingpercent_text].alpha, 1);
-
-		set(_.isloading, true);
-		set(_.old_pv, 0);
-		set(_.i, 0);
-		
-		asyncloop(_.isloading,
-			mul(_.pv, progress.progress, 100);
-			roundval(_.pv, 0);
-			if(_.pv GT _.old_pv,
-				if(_.pv GT 1,
-					txtadd(layer[custom_loadingpercent_text].html, get(_.pv), '%');
-					set(_.old_pv, get(_.pv));
-				);
-			);
-		);
-	</action>
-
-	<action name="loadingpercent_stoploading">
-		set(loadingpercent_isloading, false);
-	
-		set(layer[custom_loadingpercent_text].html, '100%');
-		delayedcall(0.5,
-			loading_doneactions();
-		);
-	</action>
-
-	<action name="loading_doneactions">
-
-		callwith(layer[custom_loadingpercent_text], hide);
-
-		for (set(_.i, 0), _.i LT hotspot.count, inc(_.i),
-			callwith(hotspot[get(_.i)], onover);
-			callwith(hotspot[get(_.i)],onout);
-		);
-
-		delayedcall(0.5, removelayer(custom_loadingpercent_text));
-		
-		delayedcall(0.35,
-			callwith(layer[poster], hide);
-			tween(layer[ring].alpha, 0, 0.5, easeInOutCubic, 
-				set(layer[ring].visible, false);				
-			);
-		);
-	</action>
 
 </krpano>

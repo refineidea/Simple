@@ -121,29 +121,6 @@
 	/>
 
 	<hotspot
-		name="reload"
-		keep="true"
-		url="../img/reload.png"
-
-		ath="0"
-		atv="-45"
-		depth="off"
-		distorted="true"
-
-		scale="0.5"
-		enabled="true"
-
-		visible="false"
-
-		onover="
-			vr_auto_click();
-		"
-		onclick="
-			openurl('./', '_self');
-		"
-	/>
-
-	<hotspot
 		name="tiles"
 		keep="true"
 		url="../img/tiles.png"
@@ -788,10 +765,5 @@
 		ath="0"
 		atv="90"
 	/>
-
-	<action name="console.log">	
-		trace('%1 = ', %1);
-		showlog();
-	</action>
 	
 </krpano>

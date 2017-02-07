@@ -1,7 +1,17 @@
+<!-- 
+	Public options
+-->
+
 <krpano>
 	
 	<simple
 		startscene="0"
+		debug="false"
+	/>
+
+	<loader
+		pano_weight="1"
+		photos_weight="1"
 	/>
 
 </krpano>

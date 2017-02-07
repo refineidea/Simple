@@ -58,5 +58,11 @@
 
 	<!-- Pano thumbs ribbon, instagram style -->
 	<include url="catalog.kml" />
+
+	<!-- Photo Gallery -->
+	<include url="gallery.kml" />
+
+	<!-- Debugging features -->
+	<include url="debug.kml" />
 	
 </krpano>

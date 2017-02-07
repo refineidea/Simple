@@ -95,7 +95,7 @@
 					loadscene(0, null, MERGE, BLEND(0.5));
 				);
 				delayedcall(0.2,
-					loadingpercent_startloading();
+					loader.start();
 				);
 			);
 		"
@@ -139,7 +139,7 @@
 				);
 				delayedcall(0.15,
 					tween(layer[ring].x, 0, 0.5, ,
-						loadingpercent_startloading();
+						loader.start();
 						loadscene(0, null, MERGE, BLEND(0.5));
 					);
 				);

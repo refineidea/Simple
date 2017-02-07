@@ -1,0 +1,48 @@
+<!--
+	Debugging features
+-->
+
+<krpano>
+
+	<action name="console.log">	
+
+		if (%1,
+			trace('%1 = ', %1);
+		,
+			if (%1 === null,
+				trace('%1 = null');
+			,
+				if (%1 === NaN,
+					trace('%1 = NaN');
+				);
+			);
+		);
+
+		showlog();
+		
+	</action>
+
+	<hotspot
+		name="reload"
+		keep="true"
+		url="../img/reload.png"
+
+		ath="0"
+		atv="-45"
+		depth="off"
+		distorted="true"
+
+		scale="0.5"
+		enabled="true"
+
+		visible="get:simple.debug"
+
+		onover="
+			vr_auto_click();
+		"
+		onclick="
+			openurl('./', '_self');
+		"
+	/>
+
+</krpano>
