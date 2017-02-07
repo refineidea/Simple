@@ -133,9 +133,9 @@
 				for (set(_.i, 1), _.i LT gallery.count, inc(_.i),
 					for (set(_.j, 0), _.j LT gallery[get(_.i)].photo.count, inc(_.j),
 
-						calc(gallery[0].photo[get(_.i)].name, 'photo_decl_' + loader.photos_count);
+						calc(gallery[0].photo[get(loader.photos_count)].name, 'photo_decl_' + loader.photos_count);
 						copy(gallery[0].photo[get(loader.photos_count)].photo_name, gallery[get(_.i)].photo[get(_.j)].name);
-						copy(gallery[0].photo[get(_.i)].parent_gallery, gallery[get(_.i)].name);
+						copy(gallery[0].photo[get(loader.photos_count)].parent_gallery, gallery[get(_.i)].name);
 						inc(loader.photos_count);
 					);
 				);
@@ -235,14 +235,22 @@
 	-->
 	<action name="load_photos_recurrent">
 		calc(index, %1 + %2 - 1);
+
+		trace('AMOUNT = ', %1);
+		trace('OFFSET = ', %2);
 		
 		txtadd(_.layer_name, 'photo_', get(index));
+
+		console.log(_.layer_name);
 
 		addlayer(get(_.layer_name));
 		layer[get(_.layer_name)].loadstyle('photo');
 
 		copy(_.pg, gallery[0].photo[get(index)].parent_gallery);
 		copy(_.pn, gallery[0].photo[get(index)].photo_name);
+
+		console.log(_.pg);	
+		console.log(_.pn);	
 
 		if (_.pg,
 			set(layer[get(_.layer_name)].url, get(gallery[get(_.pg)].photo[get(_.pn)].url));
@@ -251,7 +259,7 @@
 		);
 
 		copy(layer[get(_.layer_name)].parent_gallery, _.pg);		
-		copy(layer[get(_.layer_name)].related_photo, _.pn);		
+		copy(layer[get(_.layer_name)].related_photo, _.pn);	
 		
 		set(layer[get(_.layer_name)].onloaded,
 			add(loader.pv, get(loader.photo_loading_percent_limit));

@@ -37,6 +37,7 @@
 		pano_weight="1"
 		photos_weight = "1"
 
+		// this is called from start_screen.kml:layer[play_tour].onclick() and start_screen.kml:layer[go_VR_already].onclick()
 		start="
 			loader.check_extension();
 
@@ -145,9 +146,9 @@
 				for (set(_.i, 1), _.i LT gallery.count, inc(_.i),
 					for (set(_.j, 0), _.j LT gallery[get(_.i)].photo.count, inc(_.j),
 
-						calc(gallery[0].photo[get(_.i)].name, 'photo_decl_' + loader.photos_count);
+						calc(gallery[0].photo[get(loader.photos_count)].name, 'photo_decl_' + loader.photos_count);
 						copy(gallery[0].photo[get(loader.photos_count)].photo_name, gallery[get(_.i)].photo[get(_.j)].name);
-						copy(gallery[0].photo[get(_.i)].parent_gallery, gallery[get(_.i)].name);
+						copy(gallery[0].photo[get(loader.photos_count)].parent_gallery, gallery[get(_.i)].name);
 						inc(loader.photos_count);
 					);
 				);
@@ -284,7 +285,7 @@
 		);
 
 		copy(layer[get(_.layer_name)].parent_gallery, _.pg);		
-		copy(layer[get(_.layer_name)].related_photo, _.pn);		
+		copy(layer[get(_.layer_name)].related_photo, _.pn);	
 		
 		// Очередная загрузка из очереди запускается на выполнение событием onloaded слоя с фотографией.
 		// Фотографии потока загружаются строго по одной, новая загрузка не начинается до окончания старой.

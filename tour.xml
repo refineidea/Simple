@@ -13,14 +13,17 @@
 	<photo name="photo5" url="%SWFPATH%/photo/5.jpg" />
 	<photo name="photo6" url="%SWFPATH%/photo/6.jpg" />
 	<photo name="photo7" url="%SWFPATH%/photo/7.jpg" />
-	<photo name="photo8" url="%SWFPATH%/photo/8.jpg" />
-	<photo name="photo9" url="%SWFPATH%/photo/9.jpg" />
-	<photo name="photo10" url="%SWFPATH%/photo/10.jpg" />
-	<photo name="photo11" url="%SWFPATH%/photo/11.jpg" />
-	<photo name="photo12" url="%SWFPATH%/photo/12.jpg" />
-	<photo name="photo13" url="%SWFPATH%/photo/13.jpg" />
-	<photo name="photo14" url="%SWFPATH%/photo/14.jpg" />
-	<photo name="photo15" url="%SWFPATH%/photo/15.jpg" />
+
+	<gallery name="gall1">
+		<photo name="photo8" url="%SWFPATH%/photo/8.jpg" />
+		<photo name="photo9" url="%SWFPATH%/photo/9.jpg" />
+		<photo name="photo10" url="%SWFPATH%/photo/10.jpg" />
+		<photo name="photo11" url="%SWFPATH%/photo/11.jpg" />
+		<photo name="photo12" url="%SWFPATH%/photo/12.jpg" />
+		<photo name="photo13" url="%SWFPATH%/photo/13.jpg" />
+		<photo name="photo14" url="%SWFPATH%/photo/14.jpg" />
+		<photo name="photo15" url="%SWFPATH%/photo/15.jpg" />
+	</gallery>
 
 	<scene name="scene_p943" title="Прихожая" onstart="" thumburl="panos/p943.tiles/thumb.jpg" vr_thumburl="panos/p943.tiles/thumb_vr.jpg" lat="" lng="" heading="">
 
