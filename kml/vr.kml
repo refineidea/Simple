@@ -133,6 +133,8 @@
 		scale="0.5"
 		enabled="true"
 
+		visible="false"
+
 		onover="
 			vr_auto_click();
 		"
@@ -440,10 +442,14 @@
 						);
 					);
 
-					if ((_.cols == 1) OR (_.cols == 3),
+					if (_.cols == 3,
 						calc(hotspot[get(_.tile_name)].my_ath, 22.5 * (_.j - 1));
 					,
-						calc(hotspot[get(_.tile_name)].my_ath, 22.5 * _.j - 11.25);
+						if (_.cols == 2,
+							calc(hotspot[get(_.tile_name)].my_ath, 22.5 * _.j - 11.25);
+						,
+							copy(hotspot[get(_.tile_name)].my_ath, 0);
+						);
 					);
 
 					copy(hotspot[get(_.tile_name)].ath, hotspot[get(_.tile_name)].my_ath);
