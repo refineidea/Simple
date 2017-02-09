@@ -34,38 +34,6 @@
 			bgcolor="0xdddddd"
 			width="100%"
 			height="50"
-
-			fix_buttons="
-				set(_.offset, 9);				
-
-				copy(_.new_x, _.offset);
-
-				for(set(i, 0), i LT layer.count, inc(i),
-					if (layer[get(i)].parent == content_buttons_wrapper,
-
-						if (layer[get(i)].active,
-							inc(_.children_count);
-
-							if (layer[get(i)].fix_align == 'left',
-								calc(layer[get(i)].x, -14 + _.new_x + layer[get(i)].width);
-							,
-								if (layer[get(i)].fix_align == 'right',
-									calc(layer[get(i)].x, 7 - layer[get(i)].width + layer[bottom_control_bar].width);
-								,
-									copy(layer[get(i)].x, _.new_x);
-								);
-							);
-			
-							add(width, get(layer[get(i)].width));
-							add(_.new_x, get(layer[get(i)].width));
-
-							add(_.new_x, _.offset);
-						);
-					);
-				);
-
-				calc(width, width + (_.children_count - 1) * _.offset);
-			"
 		>
 		
 			
@@ -84,13 +52,13 @@
 				visible="true"
 
 				active="true"
-				align="center"
-				fix_align="left"
+				align="left"
+				edge="center"
 
 				width="32"
 				height="32"
 
-				x="0" y="0"
+				x="25" y="0"
 
 				devices="desktop"
 
@@ -132,10 +100,10 @@
 				visible="true"
 				active="true"
 
-				align="center"
-				fix_align="left"
+				align="left"
+				edge="center"
 
-				x="0" y="0"
+				x="25" y="0"
 				y.mobile="-2"
 				width="32"
 				height="32"
@@ -171,7 +139,7 @@
 				active="true"
 				autoheight="true"
 				alpha="1"
-				x="155" 
+				x="50" 
 				y.desktop="9"
 				y.no-desktop="8"
 
@@ -206,13 +174,15 @@
 				url="../img/fullscreen.png"
 				crop="0|0|32|32"
 				
-				align="center"
-				fix_align="right"
+				align="right"
+				edge="center"
 				active="true"
+
+				devices="desktop"
 
 				width="32"
 				height="32"
-				x="9" y="0"
+				x="25" y="0"
 				tick_limit="5"
 				onover="
 					set(skin_settings.tick_counter, 0);
@@ -250,20 +220,19 @@
 
 				caption="Переключить в полноэкранный режим"
 				onclick="switch(fullscreen);"
-				devices="desktop"
 			/>
 
 			<layer name="button_fullscreen"
 				url="../img/fullscreen_retina.png"
 				crop="0|0|64|64"
 
-				align="center"
-				fix_align="right"
+				align="right"
+				edge="center"
 				active="true"
 
 				width="32"
 				height="32"
-				x="5" y="0"
+				x="25" y="0"
 
 				onloaded="
 					if(fullscreen,

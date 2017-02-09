@@ -36,6 +36,12 @@
 		
 	/>
 
+	<events name="catalog_events" keep="true"
+		onresize="
+			resize_catalog();
+		"
+	/>
+
 	<style
 		name="thumb_prototype"
 		parent="thumbs_scrollarea"

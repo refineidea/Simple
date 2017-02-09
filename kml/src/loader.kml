@@ -17,19 +17,6 @@
 		pg=""
 		pn=""
 	/>
-
-	<style name="photo"
-		visible="true"
-		keep="true"
-		align="center"
-		enabled="false"
-		alpha="0"
-		x="0"
-		y="0"
-		scale="1"
-		parent="skin_cont_photo"
-		handcursor="false"
-	/>
 		
 	<loader
 	// public
@@ -85,11 +72,10 @@
 
 			set(loader.pv, get(loader.pano_loading_percent_limit));
 			
-			// Цикл работает, пока потоки загрузки увеличивают переменную photos_loaded_amount
+			// photos_loaded_amount is increased by loader currents
+			// actual increasing is produced in onloaded function of layers
 			asyncloop(loader.photos_loaded_amount LT loader.photos_count,
-
 				roundval(loader.pv, 0);
-				// ограничение загрузки сверху :В
 				if(loader.pv GT 100, set(loader.pv, 100));
 				txtadd(layer[percent].html, get(loader.pv), '%');
 			,
@@ -117,11 +103,11 @@
 		i3="0"
 		i4="0"
 		i5="0"
-		shift1="0"
-		shift2="0"
-		shift3="0"
-		shift4="0"
-		shift5="0"
+		offset1="0"
+		offset2="0"
+		offset3="0"
+		offset4="0"
+		offset5="0"
 
 		// Photos can be stored inside gallery objects or be 'free'.
 		// They would be different entities even if have same names, so 
@@ -137,8 +123,7 @@
 					copy(gallery[0].photo[get(_.i)].parent_gallery, null);
 					inc(loader.photos_count);
 				);
-			);
-			
+			);			
 
 			// adding galleries
 			// skipping gallery[0]
@@ -187,16 +172,12 @@
 	/>
 
 	<!-- 
-		Функция подготовки и запуска рекурсивной многопоточной загрузки фотографий.
-		Требует внесения предварительных данных в loader.
-		%1 – количество загружаемых фото
+		1-st stage of image loading: preparations and start of recursive currents
+		%1 – amount of images to load
 	-->
 	<action name="load_photos">
-		// Определение количества потоков в зависимости от количества загружаемых фото.
-		// %1 равен 2 и меньше => потоков два,
-		// %1 от 3 до 7 => потоков три,
-		// %1 от 8 до 9 => потоков четыре,
-		// %1 от 10 и больше => потоков пять.
+		// An even distribution of images to currents
+		// limit of currents is 5
 		if (%1 LT 3,
 			set(_.ldr_cnt, 2);
 		,
@@ -211,93 +192,96 @@
 			);
 		);
 		
-		// Расчёт количества загружаемых фото в каждом потоке.
-		// Потоки загружаются поровну, в последний поток идёт отстаток от деления.
+		// getting images per current amounts
+		// %1 = _.s1 * _.ldr_cnt + _.s2
+
 		div(_.s1, %1, _.ldr_cnt);
 		math.floor(_.s1);
-
 		mod(_.s2, %1, _.ldr_cnt);
-		
-		// Если фото разделились без остатка, все потоки одинаковые.
+
 		if(_.s2 == 0,
-			// Количество фото для первых потоков,
 			copy(_.amount1, _.s1);
-			// для последнего потока.
 			copy(_.amount2, _.s1);
-			// Нужно для запуска цикла.
 			dec(_.ldr_cnt);
 		,
-			// иначе вычисляем количество для последнего потока.
 			set(_.amount1, get(_.s1));
 			dec(_.ldr_cnt);
 			calc(_.amount2, %1 - _.s1 * _.ldr_cnt);
 		);
 		
-		// Определяем смещения в списке для каждого из потоков. 
-		// К ним потом будет прибавляться итератор.
-		copy(loader.shift2, _.s1);
-		mul(loader.shift3, _.s1, 2);
-		mul(loader.shift4, _.s1, 3);
-		mul(loader.shift5, _.s1, 4);
+		// getting offsets for index of gallery[0] array
+		copy(loader.offset2, _.s1);
+		mul(loader.offset3, _.s1, 2);
+		mul(loader.offset4, _.s1, 3);
+		mul(loader.offset5, _.s1, 4);
 		
-		// Формируем команды на запуск первых потоков
-		// Получается load_photos_recurrent(get(_.amount1), get(loader.shift1), 'loader.i1');
+		// Generation of calls for first currents
+		// they look like load_photos_recurrent(get(_.amount1), get(loader.offset1), 'loader.i1');
 		for(set(_.i, 1), _.i LE _.ldr_cnt, inc(_.i),
 			txtadd(	_.cmd_name, 
-				'load_photos_recurrent(get(_.amount1), get(loader.shift', get(_.i), '), ', 'loader.i', get(_.i), ');'
+				'load_photos_recurrent(get(_.amount1), get(loader.offset', get(_.i), '), ', 'loader.i', get(_.i), ');'
 			);
 			delayedcall(0, get(_.cmd_name));
 		);
 		
-		// Команда на запуск последнего потока: 
-		// load_photos_recurrent(get(_.amount2), get(loader.shift5), 'loader.i5');
+		// Call for last current
+		// load_photos_recurrent(get(_.amount2), get(loader.offset5), 'loader.i5');
 		txtadd(	_.cmd_name, 
-			'load_photos_recurrent(get(_.amount2), get(loader.shift', get(_.i), '), ', 'loader.i', get(_.i), ');'
+			'load_photos_recurrent(get(_.amount2), get(loader.offset', get(_.i), '), ', 'loader.i', get(_.i), ');'
 		);
 		delayedcall(0, get(_.cmd_name));
 			
 	</action>
 	
 	
-	<!-- Загрузчик фотографий 
-		%1 — количество загружаемых фото в потоке,
-		%2 — Смещение,
-		%3 — имя итератора потока.
-		Фотографии загружаются от конца области на загрузку к её началу.
+	<!-- Actual photo loader
+		%1 — amount of photos in current
+		%2 — offset
+		%3 — name of current iterator
+		
+		Photos are loaded from the end of current area to beginning
 	-->
 	<action name="load_photos_recurrent">
-		// Вычисляем имя загружаемого фото.
+		// index for gallery[0]
 		calc(index, %1 + %2 - 1);
 		
-		// Определяем имя нового слоя.
 		txtadd(_.layer_name, 'photo_', get(index));
-
 		addlayer(get(_.layer_name));
 		layer[get(_.layer_name)].loadstyle('photo');
+
+//		trace('—————————————————');
+//		trace('AMOUNT = ', %1, ' OFFSET = ', %2);
+//		console.log(_.layer_name);
 
 		copy(_.pg, gallery[0].photo[get(index)].parent_gallery);
 		copy(_.pn, gallery[0].photo[get(index)].photo_name);
 
+		// making links between entities
 		if (_.pg,
 			set(layer[get(_.layer_name)].url, get(gallery[get(_.pg)].photo[get(_.pn)].url));
+			copy(gallery[get(_.pg)].photo[get(_.pn)].related_photo, _.layer_name);
 		,
 			set(layer[get(_.layer_name)].url, get(photo[get(_.pn)].url));
+			copy(photo[get(_.pn)].related_photo, _.layer_name);
 		);
 
 		copy(layer[get(_.layer_name)].parent_gallery, _.pg);		
-		copy(layer[get(_.layer_name)].related_photo, _.pn);	
+		copy(layer[get(_.layer_name)].related_photo, _.pn);
+
+//		console.log(layer[get(_.layer_name)].parent_gallery);		
+//		console.log(layer[get(_.layer_name)].related_photo);
 		
-		// Очередная загрузка из очереди запускается на выполнение событием onloaded слоя с фотографией.
-		// Фотографии потока загружаются строго по одной, новая загрузка не начинается до окончания старой.
+		// New iteration of current is triggered when next photo is loaded
 		set(layer[get(_.layer_name)].onloaded,
-			// Увеличиваем экранный счётчик процентов.
+			
+			// increasing screen percent counter
 			add(loader.pv, get(loader.photo_loading_percent_limit));
-			// Увеличиваем счётчик загруженных фото.
+			// increasing loaded photos amount
 			add(loader.photos_loaded_amount, 1);
-			// Вычисляем новое значение итератора.
-			sub(loader.%3, %1, 1);
-			// Если итератор не обнулился, создаём рекурсивный вызов с теми же параметрами,
-			// но уже уменьшенным количеством загружаемых фото.
+			// getting new iterator value
+			calc(loader.%3, %1 - 1);
+			
+			// caling next iteration
 			if(loader.%3 GT 0,
 				load_photos_recurrent(get(loader.%3), %2, %3);
 			);

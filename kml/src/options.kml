@@ -7,6 +7,8 @@
 	<simple
 		startscene="0"
 		debug="false"
+		photo_scale_supremum="0.8"
+		photo_scale_supremum.mobile="1"
 	/>
 
 	<loader

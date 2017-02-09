@@ -30,6 +30,8 @@
 		visible="false"
 		alpha="0"
 
+		vr="true"
+
 		my_page="0"
 		my_col="0"
 		my_row="0"
@@ -88,6 +90,8 @@
 		alpha="0"
 		visible="false"
 
+		vr="true"
+
 		distorted="true"
 		depth="1000"
 		atv="-25"
@@ -132,6 +136,8 @@
 		enabled="true"
 		alpha="1"
 
+		vr="true"
+
 		ath="0"
 		atv="30"
 		depth="1000"
@@ -171,6 +177,8 @@
 		alpha="0"
 		alpha_enabled="1"
 		alpha_disabled="0.25"
+
+		vr="true"
 
 		my_ath="40"
 		ath="0"
@@ -228,6 +236,8 @@
 		alpha="0"
 		alpha_enabled="1"
 		alpha_disabled="0.25"
+
+		vr="true"
 
 		my_ath="-40"
 		ath="0"
@@ -677,6 +687,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"
@@ -694,6 +705,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"
@@ -711,6 +723,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"
@@ -728,6 +741,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"
@@ -745,6 +759,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"
@@ -762,6 +777,7 @@
 		distorted="true"
 		depth="off"
 		enabled="false"
+		vr="true"
 
 		visible="false"
 		alpha="0"

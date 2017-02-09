@@ -10,16 +10,492 @@
 		<photo
 			name="photo100"
 			url="photo/0.jpg"
+			caption="caption"
 		/>
 	
-		<photo
-			name="photo500"
-		/>
 	-->
+
+	<_
+		scale="0"
+		gallery_mode="false"
+
+		curr_photo_layer=""
+		prev_photo_layer=""
+		curr_photo_index="0"
+		prev_photo_index="0"
+		max_photo_index="0"
+		parentname=""
+		curr_gallery=""
+		direction="1"
+	/>
+
+	<events name="gallery_events" keep="true"
+		onresize="
+			resize_photo(get(_.curr_photo_layer), 'simultaneous');
+		"
+		onclick="
+			if (_.gallery_mode,
+				hide_photo();
+			);
+		"
+	/>
+
+	<style name="hs_photo"
+		url="../img/camera_retina.png"
+		scale="0.5"
+
+		alpha="0.9"
+
+		linkedphoto="false"
+		linkedgallery="false"
+
+		onclick="
+			if (linkedphoto,
+				show_photo(get(linkedphoto));
+			);
+			if (linkedgallery,
+				show_gallery(get(linkedgallery));
+			);			
+		"
+
+		onover="
+			tween(alpha, 1, 0.1);
+		"
+		onout="
+			tween(alpha, 0.9, 0.1);
+		"
+	/>
+
 
 	<gallery
 		name="all"
 	>
 	</gallery>
-	
+
+	<!--
+		Show photo inside overlay
+		%1 – name of photo object
+	-->
+	<action name="show_photo">
+		set(layer[bottom_control_bar].visible, false);
+
+		for(set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+			ifnot (hotspot[get(_.i)].vr,
+				set(hotspot[get(_.i)].enabled, false);
+				set(hotspot[get(_.i)].visible, false);
+			);
+		);
+
+		set(_.gallery_mode, true);
+		copy(layer[gallery_photo_title].html, photo[%1].caption);
+		set(_.curr_photo_layer, get(photo[%1].related_photo));	
+
+		resize_photo(get(photo[%1].related_photo), 'simultaneous');
+		
+		// Fixing idiotic features of Safari for mibiles
+		if(device.iphone,
+			if(device.safariversion GE 7.0,
+				if(screen_ratio GT 1,
+					set(layer[hide_photo_overlay].y, 104);
+				,
+					set(layer[hide_photo_overlay].y, 24);
+				);
+			);
+		);
+
+		set(layer[get(_.curr_photo_layer)].visible, true);
+
+		copy(layer[gallery_photo_title].parent, _.curr_photo_layer);
+		
+		set(layer[gallery_photo_title].visible, true);
+		set(layer[gallery_photo_title].x, 0);
+		
+		toggle_photo_overlay(true);
+	</action>
+
+	<action name="hide_photo">
+		set(_.parentname, get(layer[hide_photo_overlay].parent));
+		tween(layer[get(_.parentname)].alpha, 0, 0.15, easeOutQuad,
+			set(layer[get(_.parentname)].enabled, false);
+			set(layer[get(_.parentname)].visible, false);
+			toggle_photo_overlay(false);
+
+			set(layer[bottom_control_bar].visible, true);
+
+			for(set(_.i, 0), _.i LT hotspot.count, inc(_.i),
+				ifnot (hotspot[get(_.i)].vr,
+					set(hotspot[get(_.i)].enabled, true);
+					set(hotspot[get(_.i)].visible, true);
+				);
+			);
+			set(control.usercontrol, 'all');
+		);
+	</action>
+
+	<!-- 
+		%1 — true/false,
+		%2 — donecall in tween 
+	-->
+	<action name="toggle_photo_overlay">
+		if(%1,
+		
+			set(control.usercontrol, 'off');
+			set(layer[photo_overlay].visible, true);
+			set(layer[scene_title].visible, false);
+
+			tween(layer[photo_overlay].alpha, 1, 0.2, easeOutQuad,
+				tween(layer[get(_.curr_photo_layer)].alpha, 1, 0.2, easeInQuad,
+					set(layer[get(_.curr_photo_layer)].enabled, true);
+				);
+			);
+		,
+			set(_.gallery_mode, false);
+			set(layer[get(_.curr_photo_layer)].enabled, false);
+			set(layer[scene_title].visible, true);
+
+			tween(layer[photo_overlay].alpha, 0, 0.25, easeOutQuad,
+				set(layer[photo_overlay].visible, false);
+				if (%2,
+					delayedcall(0, %2);
+				);
+			);
+		);
+	</action>
+
+	<!--		
+		%1 – name of gallery object
+	-->
+	<action name="show_gallery">
+		
+		set(control.usercontrol, 'off');
+
+		set(_.gallery_mode, true);
+		
+		set(layer[gallery_prev_image].enabled, true);
+		set(layer[gallery_next_image].enabled, true);
+		set(layer[gallery_prev_image].visible, true);
+		set(layer[gallery_next_image].visible, true);
+
+		set(_.curr_photo_layer, get(gallery[%1].photo[0].related_photo));	
+		set(_.curr_photo_index, 0);
+		set(_.curr_gallery, %1);
+		calc(_.max_photo_index, gallery[%1].photo.count - 1);
+
+		set(control.usercontrol, 'off');
+
+		set(layer[gallery_photo_title].visible, true);
+
+		set(layer[scene_title].visible, false);
+		
+		set(layer[bottom_control_bar].visible, false);
+		set(layer[photo_overlay].visible, true);
+		tween(layer[photo_overlay].alpha, 1, 0.2, easeOutQuad);
+		
+		next_image(0);
+	</action>
+
+	<!--
+		%1 – offset, could be -n, 0, n
+	-->
+	<action name="next_image">
+		copy(_.prev_photo_index, _.curr_photo_index);
+		add(_.curr_photo_index, %1);
+
+		if (_.curr_photo_index GT _.max_photo_index,
+			set(_.curr_photo_index, 0);
+		);
+
+		if (_.curr_photo_index LT 0,
+			copy(_.curr_photo_index, _.max_photo_index);
+		);
+		
+		copy(_.prev_photo_layer, gallery[get(_.curr_gallery)].photo[get(_.prev_photo_index)].related_photo);
+		copy(_.curr_photo_layer, gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].related_photo);
+		
+		switch_gallery_images(%1);
+	</action>
+
+	<!-- 
+		%1 – same for next image
+	-->
+	<action name="switch_gallery_images">
+
+		set(layer[get(_.curr_photo_layer)].zorder, 4);
+		set(layer[get(_.prev_photo_layer)].zorder, 3);
+
+		resize_photo(get(_.curr_photo_layer), 'simultaneous');
+
+		set(layer[get(_.curr_photo_layer)].enabled, true);
+		set(layer[get(_.curr_photo_layer)].visible, true);
+
+		// checking if we're on start (%1 == 0) or not.
+		ifnot (%1,
+			// STARTING GALLERY HERE
+			copy(layer[get(_.curr_photo_layer)].x, 0);
+			tween(layer[get(_.curr_photo_layer)].alpha, 1, 0.35, easeInQuad,
+
+				set(layer[gallery_photo_title].parent, get(_.curr_photo_layer));
+				set(layer[gallery_prev_image].parent, get(_.curr_photo_layer));
+				set(layer[gallery_next_image].parent, get(_.curr_photo_layer));
+				set(layer[hide_photo_overlay].parent, get(_.curr_photo_layer));
+
+				txtadd(layer[gallery_photo_title].html, '1/', get(gallery[get(_.curr_gallery)].photo.count), ' | ', get(gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption));
+			);
+		,
+			math.abs(_.direction, %1);
+			calc(_.direction, %1 / _.direction);
+
+			calc(_.prev_dx, -40 * _.direction);
+			calc(_.next_dx, 40 * _.direction);
+
+
+
+			copy(layer[get(_.curr_photo_layer)].x, _.next_dx);
+
+			tween(layer[get(_.prev_photo_layer)].x, get(_.prev_dx), 0.35, easeOutQuart);
+			tween(layer[get(_.prev_photo_layer)].alpha, 0, 0.35, easeOutQuart,
+
+			  	set(layer[gallery_photo_title].parent, get(_.curr_photo_layer));				  	
+			  	set(layer[gallery_prev_image].parent, get(_.curr_photo_layer));
+			  	set(layer[gallery_next_image].parent, get(_.curr_photo_layer));
+			  	set(layer[hide_photo_overlay].parent, get(_.curr_photo_layer));
+
+				set(layer[get(_.prev_photo_layer)].visible, false);
+				set(layer[get(_.prev_photo_layer)].enabled, false);
+
+				tween(layer[get(_.curr_photo_layer)].alpha|layer[get(_.curr_photo_layer)].x, 1|0, 0.35 easeInExpo);
+
+				txtadd(layer[gallery_photo_title].html, calc(_.curr_photo_index + 1), '/', get(gallery[get(_.curr_gallery)].photo.count), ' | ', get(gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption));
+			);
+		);
+	</action>
+
+
+	<!--
+		Функция рассчитывает новый масштаб для фотографии либо объекта, развёрнутого на весь экран.
+		Рассчитанный масштаб сразу применяется к слою.
+		
+		%1 – имя слоя для ресайза
+		%2 – режим изменения размера simultaneous/tween
+	-->
+	<action name="resize_photo">
+
+		calc(_.scale, 
+			stagewidth / stageheight GE layer[%1].width / layer[%1].height ?
+				stageheight * simple.photo_scale_supremum / layer[%1].height 
+			: 
+				stagewidth * simple.photo_scale_supremum / layer[%1].width
+		);
+
+		if(_.scale GT 1,
+			set(_.scale, 1);
+		);		
+
+		if (%2 == 'simultaneous',
+			copy(layer[%1].scale, _.scale);
+		,
+			if (%2 == 'tween',
+				tween(layer[%1].scale, get(_.scale), 0.35, easeInOutQuad);
+			);
+		);
+	</action>
+
+	<style name="photo"
+		visible="false"
+		keep="true"
+		align="center"
+		enabled="false"
+		alpha="0"
+		x="0"
+		y="0"
+		scale="0.5"
+		parent="photo_overlay"
+		handcursor="false"
+	/>
+
+	<layer name="photo_overlay"
+		keep="true"
+		type="container"
+
+		visible="false"
+		enabled="true"
+		alpha="0"
+
+		align="center"
+		width="100%"
+		height="100%"
+		x="0" y="0"
+		
+		bgcolor="0x0d0d0d"
+		bgalpha="0.8"		
+	>
+		
+		<layer name="gallery_photo_title"
+			url="%SWFPATH%/plugins/textfield.swf"
+			devices="desktop|tablet"
+
+			align="leftbottom"
+			edge="lefttop"
+			width="95%"
+			height="32"
+			x="0" y="-1"
+			
+			autoheight="true"
+			html=""
+			alpha="1"
+			
+			enabled="false"
+			visible="true"
+
+			background="false"
+			border="false"
+			css="text-align:left; color:#ffffff; font-family:OpenSans-Light, sans-serif; font-size:18px;"
+			
+			onloaded="
+				if(device.mobile,
+					set(css, 'text-align:left; color:#ffffff; font-family:OpenSans-Light, sans-serif; font-weight:regular; font-size:26px;');
+					set(y, -44);
+				);
+			"
+		/>
+
+		<layer name="hide_photo_overlay"
+			url="../img/close_btn.png"
+			crop="0|0|48|48"
+			crop_normal="0|0|48|48"
+			crop_ondown="48|0|48|48"
+			scale="0.5"
+
+			align.windows.or.linux="righttop"
+			align.mac="lefttop"
+			align.tablet="lefttop"
+
+			x="-2"
+			y="-32"						
+
+			devices="desktop|tablet"
+			zorder="4"
+		>
+			<layer 
+				name="hide_photo_overlay_touchfield"
+				url="../img/void.png"
+				align="center"
+				x="0" y="0"
+				alpha="0"
+				width="32"
+				height="32"
+				zorder="3"
+
+				ondown="
+					copy(layer[hide_photo_overlay].crop, layer[hide_photo_overlay].crop_ondown);
+
+					if (device.tablet,
+						set(layer[ring].parent, hide_photo_overlay);
+						set(layer[ring].y, 0);
+						callwith(layer[ring], layer[ring].show());
+					);
+				"
+				onup="
+					copy(layer[hide_photo_overlay].crop, layer[hide_photo_overlay].crop_normal);
+
+					if (device.tablet,
+						callwith(layer[ring], layer[ring].hide());
+					);
+				"
+
+				onclick="
+					hide_photo();
+				"
+			/>
+
+			<layer
+				name="gallery_next_image"
+				url="../img/next.png"
+				crop="0|0|27|48"
+				crop_normal="0|0|27|48"
+				crop_ondown="27|0|27|48"
+				align="right"
+				edge="center"
+				x="-48"
+				y="0"
+				scale="0.5"
+				enabled="false"
+				devices="desktop"
+				alpha="0.85"
+				onover="
+					tween(alpha, 1, 0.1, easeInQuad);
+				"
+				onout="
+					tween(alpha, 0.85, 0.1, easeOutQuad);
+				"
+			>
+				<layer 
+					name="gallery_next_image_touchfield"
+					url="../img/void.png"
+					align="center"
+					x="0" y="0"
+					alpha="0.0"
+					width="80"
+					height="80"
+
+					ondown="
+						copy(layer[gallery_next_image].crop, layer[gallery_next_image].crop_ondown);
+					"
+					onup="
+						copy(layer[gallery_next_image].crop, layer[gallery_next_image].crop_normal);
+					"
+					onclick="
+						next_image(1);
+					"
+				/>
+			</layer>
+
+			<layer
+				name="gallery_prev_image"
+				url="../img/next.png"
+				crop="0|0|27|48"
+				crop_normal="0|0|27|48"
+				crop_ondown="27|0|27|48"
+
+				rotate="180"
+
+				align="left"
+				edge="center"
+				x="-48"
+				y="0"
+				scale="0.5"
+				enabled="false"
+				devices="desktop"
+				alpha="0.85"
+				onover="
+					tween(alpha, 1, 0.1, easeInQuad);
+				"
+				onout="
+					tween(alpha, 0.85, 0.1, easeOutQuad);
+				"
+			>
+				<layer 
+					name="gallery_prev_image_touchfield"
+					url="../img/void.png"
+					align="center"
+					x="0" y="0"
+					alpha="0.0"
+					width="80"
+					height="80"
+
+					ondown="
+						copy(layer[gallery_prev_image].crop, layer[gallery_prev_image].crop_ondown);
+					"
+					onup="
+						copy(layer[gallery_prev_image].crop, layer[gallery_prev_image].crop_normal);
+					"
+					onclick="
+						next_image(-1);
+					"
+				/>
+			</layer>
+
+		</layer>
+	</layer>
+
 </krpano>

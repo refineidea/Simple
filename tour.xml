@@ -6,23 +6,23 @@
 		startscene="scene_p943"
 	/>
 
-	<photo name="photo1" url="%SWFPATH%/photo/1.jpg" />
-	<photo name="photo2" url="%SWFPATH%/photo/2.jpg" />
-	<photo name="photo3" url="%SWFPATH%/photo/3.jpg" />
-	<photo name="photo4" url="%SWFPATH%/photo/4.jpg" />
-	<photo name="photo5" url="%SWFPATH%/photo/5.jpg" />
-	<photo name="photo6" url="%SWFPATH%/photo/6.jpg" />
-	<photo name="photo7" url="%SWFPATH%/photo/7.jpg" />
+	<photo name="photo1" caption="Текст1" url="%SWFPATH%/photo/1.jpg" />
+	<photo name="photo2" caption="Текст2" url="%SWFPATH%/photo/2.jpg" />
+	<photo name="photo3" caption="Текст3" url="%SWFPATH%/photo/3.jpg" />
+	<photo name="photo4" caption="Текст4" url="%SWFPATH%/photo/4.jpg" />
+	<photo name="photo5" caption="Текст5" url="%SWFPATH%/photo/5.jpg" />
+	<photo name="photo6" caption="Текст6" url="%SWFPATH%/photo/6.jpg" />
+	<photo name="photo7" caption="Текст7" url="%SWFPATH%/photo/7.jpg" />
 
 	<gallery name="gall1">
-		<photo name="photo8" url="%SWFPATH%/photo/8.jpg" />
-		<photo name="photo9" url="%SWFPATH%/photo/9.jpg" />
-		<photo name="photo10" url="%SWFPATH%/photo/10.jpg" />
-		<photo name="photo11" url="%SWFPATH%/photo/11.jpg" />
-		<photo name="photo12" url="%SWFPATH%/photo/12.jpg" />
-		<photo name="photo13" url="%SWFPATH%/photo/13.jpg" />
-		<photo name="photo14" url="%SWFPATH%/photo/14.jpg" />
-		<photo name="photo15" url="%SWFPATH%/photo/15.jpg" />
+		<photo name="photo8" caption="Текст1" url="%SWFPATH%/photo/8.jpg" />
+		<photo name="photo9" caption="Текст2" url="%SWFPATH%/photo/9.jpg" />
+		<photo name="photo10" caption="Текст3" url="%SWFPATH%/photo/10.jpg" />
+		<photo name="photo11" caption="Текст4" url="%SWFPATH%/photo/11.jpg" />
+		<photo name="photo12" caption="Текст5" url="%SWFPATH%/photo/12.jpg" />
+		<photo name="photo13" caption="Текст6" url="%SWFPATH%/photo/13.jpg" />
+		<photo name="photo14" caption="Текст7" url="%SWFPATH%/photo/14.jpg" />
+		<photo name="photo15" caption="Текст8" url="%SWFPATH%/photo/15.jpg" />
 	</gallery>
 
 	<scene name="scene_p943" title="Прихожая" onstart="" thumburl="panos/p943.tiles/thumb.jpg" vr_thumburl="panos/p943.tiles/thumb_vr.jpg" lat="" lng="" heading="">
@@ -47,6 +47,8 @@
 		<hotspot name="spot8" style="caption_vr" url="hotspots/bedroom_ur.png" ath="89.311" atv="-10" linkedscene="scene_p940" />
 		<hotspot name="spot9" style="caption_vr" url="hotspots/playroom_red_ul.png"  ath="89.640" atv="-2.33" linkedscene="scene_p942" />
 		<hotspot name="spot10" style="caption_vr" url="hotspots/playroom_pink_dl.png" ath="89.858" atv="6" linkedscene="scene_p941" />
+
+		<hotspot name="spot11" style="hs_photo" ath="0" atv="0" linkedgallery="gall1" />		
 	</scene>
 
 	<scene name="scene_p937" title="Кухня" onstart="" thumburl="panos/p937.tiles/thumb.jpg" vr_thumburl="panos/p937.tiles/thumb_vr.jpg" lat="" lng="" heading="">

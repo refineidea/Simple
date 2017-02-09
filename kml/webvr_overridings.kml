@@ -9,6 +9,19 @@
 			mobilevr_lens_fov="120"
 	/>
 
+	<!-- the VR cursor hotspot -->
+	<hotspot name="vr_cursor" keep="true"
+		url="../plugins/webvr_cursor_80x80_17f.png"
+		visible="false"
+		enabled="false"
+		distorted="true"
+		crop="0|0|80|80"
+		scale="0.3"
+		depth="1000"
+		vr="true"
+	/>
+
+
 	<action name="webvr_onentervr">
 		tween(layer[webvr_enterbutton].alpha,0,0);
 

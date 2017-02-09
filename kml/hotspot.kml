@@ -133,6 +133,8 @@
 		depth="1500"
 		distorted="true"
 
+		vr="true"
+
 		onover="
 			vr_auto_click();
 			tween(depth, 1425, 0.25);

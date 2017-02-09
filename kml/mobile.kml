@@ -60,4 +60,30 @@
 		"
 	/>
 
+	<layer 
+		name="scene_title"
+		keep="true"
+		url="%SWFPATH%/plugins/textfield.swf"
+		align="top"
+		edge="top"
+		width="95%"
+		height="32"
+		autoheight="true"
+		x="0" y="12"
+		zorder="0"
+		html="TEST"
+		enabled="false"
+		background="false"
+		border="false"
+		css="
+			text-align:center; 
+			color:#ffffff; 
+			font-family:OpenSans-Light, sans-serif; 
+			font-size:36px; 
+			text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+		"
+		visible="true"
+		devices="mobile"
+	/>
+
 </krpano>

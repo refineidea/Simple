@@ -2,8 +2,6 @@
 		
 	<_
 		run_on_startup="true"
-		old_stagewidth="0"
-		old_stageheight="0"
 		ctrl_flag="false"
 		space_flag="false"
 	/>	
@@ -23,9 +21,6 @@
 
 			set(webvr.mobilevr_lens_fov, 120);
 
-			copy(_.old_stagewidth, stagewidth);
-			copy(_.old_stageheight, stageheight);
-
 			if (_.auto_vr,
 				delayedcall(1, webvr.enterVR());
 			);
@@ -43,9 +38,7 @@
 						set(scene[get(_.i)].visited, false);
 					);
 				);
-
-				callwith(layer[content_buttons_wrapper], fix_buttons);
-
+				
 				init_catalog();
 			);
 		"
@@ -53,14 +46,9 @@
 			if(_.hs_thumb_container_visible,
 				update_hs_thumb_pos();
 			);
-
-			if ((_.old_stagewidth != stagewidth) OR (_.old_stageheight != stageheight),
-
-				copy(_.old_stagewidth, stagewidth);
-				copy(_.old_stageheight, stageheight);
-				resize_catalog();
-				callwith(layer[poster], resize);
-			);
+		"
+		onresize="
+			callwith(layer[poster], resize);
 		"
 	/>
 
