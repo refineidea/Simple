@@ -115,7 +115,7 @@
 			);			
 
 			if (gallery.count GT 1,
-				for (set(_.i, 1), _.i LT gallery.count, inc(_.i),	
+				for (set(_.i, 1), _.i LT gallery.count, inc(_.i),
 					for (set(_.j, 0), _.j LT gallery[get(_.i)].photo.count, inc(_.j),
 
 						calc(gallery[0].photo[get(loader.photos_count)].name, 'photo_decl_' + loader.photos_count);

@@ -118,6 +118,13 @@
 		tween(layer[get(_.parentname)].alpha, 0, 0.15, easeOutQuad,
 			set(layer[get(_.parentname)].enabled, false);
 			set(layer[get(_.parentname)].visible, false);
+
+			set(layer[gallery_prev_image].enabled, false);
+			set(layer[gallery_next_image].enabled, false);
+			set(layer[gallery_prev_image].visible, false);
+			set(layer[gallery_next_image].visible, false);
+			set(layer[gallery_counter].visible, false);
+
 			toggle_photo_overlay(false);
 
 			set(layer[bottom_control_bar].visible, true);
@@ -175,6 +182,7 @@
 		set(layer[gallery_next_image].enabled, true);
 		set(layer[gallery_prev_image].visible, true);
 		set(layer[gallery_next_image].visible, true);
+		set(layer[gallery_counter].visible, true);
 
 		set(_.curr_photo_layer, get(gallery[%1].photo[0].related_photo));	
 		set(_.curr_photo_index, 0);
@@ -211,7 +219,7 @@
 		
 		copy(_.prev_photo_layer, gallery[get(_.curr_gallery)].photo[get(_.prev_photo_index)].related_photo);
 		copy(_.curr_photo_layer, gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].related_photo);
-		
+
 		switch_gallery_images(%1);
 	</action>
 
@@ -231,6 +239,8 @@
 		// checking if we're on start (%1 == 0) or not.
 		ifnot (%1,
 			// STARTING GALLERY HERE
+			txtadd(layer[gallery_counter].html, '1/', get(gallery[get(_.curr_gallery)].photo.count));
+
 			copy(layer[get(_.curr_photo_layer)].x, 0);
 			tween(layer[get(_.curr_photo_layer)].alpha, 1, 0.35, easeInQuad,
 
@@ -238,8 +248,9 @@
 				set(layer[gallery_prev_image].parent, get(_.curr_photo_layer));
 				set(layer[gallery_next_image].parent, get(_.curr_photo_layer));
 				set(layer[hide_photo_overlay].parent, get(_.curr_photo_layer));
+				set(layer[gallery_counter].parent, get(_.curr_photo_layer));
 
-				txtadd(layer[gallery_photo_title].html, '1/', get(gallery[get(_.curr_gallery)].photo.count), ' | ', get(gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption));
+				copy(layer[gallery_photo_title].html, gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption);
 			);
 		,
 			math.abs(_.direction, %1);
@@ -248,7 +259,7 @@
 			calc(_.prev_dx, -40 * _.direction);
 			calc(_.next_dx, 40 * _.direction);
 
-
+			txtadd(layer[gallery_counter].html, calc(_.curr_photo_index + 1), '/', get(gallery[get(_.curr_gallery)].photo.count));
 
 			copy(layer[get(_.curr_photo_layer)].x, _.next_dx);
 
@@ -259,13 +270,14 @@
 			  	set(layer[gallery_prev_image].parent, get(_.curr_photo_layer));
 			  	set(layer[gallery_next_image].parent, get(_.curr_photo_layer));
 			  	set(layer[hide_photo_overlay].parent, get(_.curr_photo_layer));
+			  	set(layer[gallery_counter].parent, get(_.curr_photo_layer));
 
 				set(layer[get(_.prev_photo_layer)].visible, false);
 				set(layer[get(_.prev_photo_layer)].enabled, false);
 
 				tween(layer[get(_.curr_photo_layer)].alpha|layer[get(_.curr_photo_layer)].x, 1|0, 0.35 easeInExpo);
 
-				txtadd(layer[gallery_photo_title].html, calc(_.curr_photo_index + 1), '/', get(gallery[get(_.curr_gallery)].photo.count), ' | ', get(gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption));
+				copy(layer[gallery_photo_title].html, gallery[get(_.curr_gallery)].photo[get(_.curr_photo_index)].caption);
 			);
 		);
 	</action>
@@ -334,8 +346,8 @@
 			url="%SWFPATH%/plugins/textfield.swf"
 			devices="desktop|tablet"
 
-			align="leftbottom"
-			edge="lefttop"
+			align="lefttop"
+			edge="leftbottom"
 			width="95%"
 			height="32"
 			x="0" y="-1"
@@ -350,13 +362,31 @@
 			background="false"
 			border="false"
 			css="text-align:left; color:#ffffff; font-family:OpenSans-Light, sans-serif; font-size:18px;"
-			
-			onloaded="
-				if(device.mobile,
-					set(css, 'text-align:left; color:#ffffff; font-family:OpenSans-Light, sans-serif; font-weight:regular; font-size:26px;');
-					set(y, -44);
-				);
-			"
+		/>
+
+		<layer name="gallery_counter"
+			url="%SWFPATH%/plugins/textfield.swf"
+			devices="desktop|tablet"
+
+			align="bottomcenter"
+			edge="topcenter"
+			width="72"
+			height="32"
+			x="0"
+			y="-8"
+
+			alpha="1"
+			visible="false"
+			enabled="false"
+
+
+			css="text-align:center; color:#ffffff; font-family:OpenSans-Light, sans-serif; font-size:18px;"
+			background="false"
+
+			backgroundcolor="0xFFFFFF"
+			backgroundalpha="0.1"
+
+			html="000/000"
 		/>
 
 		<layer name="hide_photo_overlay"
@@ -414,10 +444,10 @@
 				crop="0|0|27|48"
 				crop_normal="0|0|27|48"
 				crop_ondown="27|0|27|48"
-				align="right"
+				align="bottomcenter"
 				edge="center"
-				x="-48"
-				y="0"
+				x="48"
+				y="-23"
 				scale="0.5"
 				enabled="false"
 				devices="desktop"
@@ -459,10 +489,10 @@
 
 				rotate="180"
 
-				align="left"
+				align="bottomcenter"
 				edge="center"
 				x="-48"
-				y="0"
+				y="-23"
 				scale="0.5"
 				enabled="false"
 				devices="desktop"
